@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8" />
-    <title>thymeleaf layout</title>
+    <title>Thymeleaf Layout</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
     <!-- content script -->
     <th:block layout:fragment="css"></th:block>
@@ -11,13 +12,12 @@
 </head>
 <body>
 <!-- 헤더 -->
-<th:block th:replace="fragments/header :: header"></th:block>
+<th:block th:replace="fragments/header :: main-header"></th:block>
 
 <!-- content fragment 사용 -->
 <th:block layout:fragment="content"></th:block>
 
 <!-- 푸터 -->
-<footer th:replace="fragments/footer :: footer">
-</footer>
+<th:block th:replace="fragments/footer :: main-footer"></th:block>
 </body>
 </html>
