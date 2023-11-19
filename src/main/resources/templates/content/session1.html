@@ -4,10 +4,65 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Thymeleaf Layout</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{/css/session1.css}" />
+    <!-- content script -->
+    <th:block layout:fragment="script"></th:block>
+</head>
 
 <th:block layout:fragment="content">
     <div class="content">
-        본문 영역.
+        <div class="N01">
+            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <form th:action="@{/submitCategory}" method="post">
+                <label for="category"> 카데고리 선택:</label>
+                <select id="category" name="category">
+                    <option value="1">에니메이션</option>
+                    <option value="2">패션</option>
+                    <option value="3">모던</option>
+                    <option value="4">게임</option>
+                    <option value="5">아티스틱</option>
+                    <option value="6">그래픽</option>
+                    <option value="7">Y2K</option>
+                </select>
+                    <button type="submit">선택</button>
+                <!-- 이미지 보여주기 -->
+            <br>
+            <p>2. 마음에 드는 이미지 3장을 선택하시오.</p>
+                <div class="sel_category">
+                    <th:block th:unless="${selectedCategory}">
+                        <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
+                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                            <div class="image-box empty-box"></div>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${selectedCategory}">
+                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                            <!-- 랜덤 이미지를 표시하는 부분 -->
+                            <div class="image-box">
+                                <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                                <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                            </div>
+                        </th:block>
+                    </th:block>
+                    <br>
+                </div>
+                <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
+            </form>
+
+        </div>
+        <div class="N02">
+            <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
+            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+                <input type="file" name="file" accept="image/*" />
+                <button type="submit">업로드</button>
+            </form>
+        </div>
     </div>
 </th:block>
 
