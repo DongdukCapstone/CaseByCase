@@ -5,19 +5,22 @@
     <meta charset="UTF-8" />
     <title>Thymeleaf Layout</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
-    <!-- content script -->
-    <th:block layout:fragment="css"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
     <!-- content script -->
     <th:block layout:fragment="script"></th:block>
 </head>
 <body>
-<!-- 헤더 -->
-<th:block th:replace="fragments/header :: main-header"></th:block>
+<main>
+    <!-- 헤더 -->
+    <th:block th:replace="fragments/header :: main-header"></th:block>
 
-<!-- content fragment 사용 -->
-<th:block layout:fragment="content"></th:block>
+    <!-- content fragment 사용 -->
+    <th:block layout:fragment="content"></th:block>
 
-<!-- 푸터 -->
-<th:block th:replace="fragments/footer :: main-footer"></th:block>
+    <!-- 푸터 -->
+    <th:block th:replace="fragments/footer :: main-footer"></th:block>
+</main>
 </body>
+
 </html>

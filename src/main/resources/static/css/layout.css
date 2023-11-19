@@ -1,0 +1,53 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #ffffd8;
+}
+
+main{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+/* header 부분 */
+
+.header{
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    top: 0;
+    height: 20vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+.header p{
+    font-size: 24px;
+    margin: 0;
+    font-weight: bold;
+}
+
+
+/* content */
+
+.content{
+    flex-grow: 1;
+}
+
+
+/* footer */
+
+.footer{
+    width: 100%;
+    height: 15vh;
+    padding: 20px;
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.footer p{
+    display: inline-block;
+    font-size: 24px;
+    margin: 0;
+}
