@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head></head>
+<head>
+
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+</head>
 <body>
 <footer th:fragment="main-footer">
-    <div class="footer">
-        <p>Footer</p>
+    <div class="footer flex">
+        <div class="border d-flex">
+            <div class="bd-warning">
+                <h3>동덕여자대학교<br>
+               정보통계학과 빅데이터 캡스톤</h3>
+            </div>
+            <div class="bd-secondary">
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <div class="box"></div>
+                        <p>성다현</p>
+                    </div>
+                    <div>
+                        <div class="box"></div>
+                        <p>조신영</p>
+                    </div>
+                    <div>
+                        <div class="box"></div>
+                        <p>박주형</p>
+                    </div>
+                    <div>
+                        <div class="box"></div>
+                        <p>임보정</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
+<!-- Bootstrap JS scripts (add these if not included) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
