@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
 </head>
 <body>
 <footer th:fragment="main-footer">
-    <div class="footer flex">
-        <div class="border d-flex">
-            <div class="bd-warning">
-                <h3>동덕여자대학교<br>
-               정보통계학과 빅데이터 캡스톤</h3>
+    <div class="footer div">
+        <div class="footer_title">
+            <p class="footer_p">팀원 소개</p>
+        </div>
+        <div class="footer1">
+            <div class="member">
+                <div class="box"></div>
+                <label>성다현</label>
             </div>
-            <div class="bd-secondary">
-                <div class="d-flex justify-content-around">
-                    <div>
-                        <div class="box"></div>
-                        <p>성다현</p>
-                    </div>
-                    <div>
-                        <div class="box"></div>
-                        <p>조신영</p>
-                    </div>
-                    <div>
-                        <div class="box"></div>
-                        <p>박주형</p>
-                    </div>
-                    <div>
-                        <div class="box"></div>
-                        <p>임보정</p>
-                    </div>
-                </div>
+            <div class="member">
+                <div class="box"></div>
+                <label>조신영</label>
             </div>
+            <div class="member">
+                <div class="box"></div>
+                <label>박주형</label>
+            </div>
+            <div class="member">
+                <div class="box"></div>
+                <label>임보정</label>
+            </div>
+        </div>
+        <div class="footer2">
+            <h3>동덕여자대학교<br>
+                정보통계학과 빅데이터 캡스톤</h3>
         </div>
     </div>
 </footer>
