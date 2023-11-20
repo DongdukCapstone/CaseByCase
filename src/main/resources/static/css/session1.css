@@ -1,4 +1,18 @@
-.N01, .N02{
+.testtitle{
+    background-color: #E3F2FD;
+    width: 100%;
+    height: 100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    margin: 30px 0 30px 0;
+}
+
+.title{
+    font-weight: bold;
+}
+
+.N01, .N02, .title{
     padding:10px;
     margin-left: 30px;
 }
@@ -6,6 +20,7 @@
 label{
     margin-left: 10px;
 }
+
 .sel_category{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -15,6 +30,15 @@ label{
 
 }
 
+/* 2번 문제 */
+.question2{
+    display: flex;
+
+    align-items: center;
+}
+.question2_p{
+    margin-right: 15px;
+}
 
 .empty-box{
     width:100px;
@@ -39,4 +63,14 @@ label{
     position: absolute;
     top: 0;
     left: 0;
+}
+
+/* 버튼 */
+button{
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #a6a6a6;
+    border-radius: 5px;
+    border: 2px solid #9b9bb3;
+    padding: 5px;
 }

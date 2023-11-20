@@ -16,6 +16,9 @@
 
 <th:block layout:fragment="content">
     <div class="content">
+        <div class="testtitle">
+            <p class="title" id="test1">PART 1</p>
+        </div>
         <div class="N01">
             <p>1. 원하는 카테고리를 선택하시오.</p>
             <form th:action="@{/submitCategory}" method="post">
@@ -32,8 +35,11 @@
                     <button type="submit">선택</button>
                 <!-- 이미지 보여주기 -->
             <br>
-            <p>2. 마음에 드는 이미지 3장을 선택하시오.</p>
-                <div class="sel_category">
+            <div class="question2">
+                <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
+                <button>reload</button>
+            </div>
+        <div class="sel_category">
                     <th:block th:unless="${selectedCategory}">
                         <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
                         <th:block th:each="i : ${#numbers.sequence(1, 10)}">
@@ -62,6 +68,9 @@
                 <input type="file" name="file" accept="image/*" />
                 <button type="submit">업로드</button>
             </form>
+        </div>
+        <div class="testtitle">
+            <p class="title" id="test2">PART 2</p>
         </div>
     </div>
 </th:block>
