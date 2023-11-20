@@ -19,7 +19,7 @@
         <div class="testtitle">
             <p class="title" id="test1">PART 1</p>
         </div>
-        <div class="N01">
+        <div class="N01_1">
             <p>1. 원하는 카테고리를 선택하시오.</p>
             <form th:action="@{/submitCategory}" method="post">
                 <label for="category"> 카데고리 선택:</label>
@@ -57,12 +57,12 @@
                         </th:block>
                     </th:block>
                     <br>
-                </div>
+        </div>
                 <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
             </form>
 
         </div>
-        <div class="N02">
+        <div class="N02_1">
             <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
             <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
                 <input type="file" name="file" accept="image/*" />
@@ -71,6 +71,54 @@
         </div>
         <div class="testtitle">
             <p class="title" id="test2">PART 2</p>
+        </div>
+        <div class="N01_2">
+            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <form th:action="@{/submitCategory2}" method="post">
+                <label for="category"> 카데고리 선택:</label>
+                <select id="category2" name="category">
+                    <option value="1">에니메이션</option>
+                    <option value="2">패션</option>
+                    <option value="3">모던</option>
+                    <option value="4">게임</option>
+                    <option value="5">아티스틱</option>
+                    <option value="6">그래픽</option>
+                    <option value="7">Y2K</option>
+                </select>
+                <button type="submit">선택</button>
+            </form>
+        </div>
+        <!-- 이미지 업로드 -->
+        <br>
+        <div class="N02_2">
+            <p class="question2_p">2. 사용자께서 사용한 휴대폰 케이스를 업로드 해주세요.</p>
+        <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+            <input type="file" name="file" accept="image/*" />
+            <button type="submit">업로드</button>
+        </form>
+
+        <form>
+        <div class="sel_category">
+
+            <th:block th:unless="${selectedCategory2}">
+                <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
+                <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                    <div class="image-box empty-box"></div>
+                </th:block>
+            </th:block>
+
+            <th:block th:if="${selectedCategory2}">
+                <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                    <!-- 이미지를 표시하는 부분 -->
+                    <div class="image-box">
+
+                    </div>
+                </th:block>
+            </th:block>
+            <br>
+        </div>
+            <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
+        </form>
         </div>
     </div>
 </th:block>
