@@ -1,10 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Thymeleaf Layout</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{/css/session2.css}" />
+    <!-- content script -->
+    <th:block layout:fragment="script"></th:block>
 </head>
 <body>
-
+    <th:block layout:fragment="content">
+    <div class="content">
+        <div class="font-center frame">
+            <h3>카테고리 소개</h3>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Animation</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>애니메이션 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Fashion</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div> 패션 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Modern</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>모던 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Game</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>게임 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Art</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>아트 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Graphic</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>그래픽 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Y2K</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                        <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                        <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                    </div></div>
+                </th:block>
+                <div>Y2K 카테고리는요</div>
+            </div>
+        </div>
+    </div>
+    </th:block>
 </body>
 </html>

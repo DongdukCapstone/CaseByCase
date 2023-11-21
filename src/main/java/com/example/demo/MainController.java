@@ -12,4 +12,9 @@ public class MainController {
     public String session1() {
         return "content/session1";
     }
+
+    @GetMapping("/session2")
+    public String session2() {
+        return "content/session2";
+    }
 }
