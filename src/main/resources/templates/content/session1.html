@@ -3,7 +3,8 @@
       lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}">
+      layout:decorate="~{layouts/layout}"
+      th:charset="UTF-8">
 <head>
     <meta charset="UTF-8" />
     <title>Thymeleaf Layout</title>
@@ -21,45 +22,55 @@
         </div>
         <div class="N01_1">
             <p>1. 원하는 카테고리를 선택하시오.</p>
-            <form th:action="@{/submitCategory}" method="post">
+            <form th:action="@{/casebycase/submitCategory}" method="post">
                 <label for="category"> 카데고리 선택:</label>
                 <select id="category" name="category">
-                    <option value="1">에니메이션</option>
-                    <option value="2">패션</option>
-                    <option value="3">모던</option>
-                    <option value="4">게임</option>
-                    <option value="5">아티스틱</option>
-                    <option value="6">그래픽</option>
-                    <option value="7">Y2K</option>
+                    <option value="애니메이션">애니메이션</option>
+                    <option value="패션">패션</option>
+                    <option value="모던">모던</option>
+                    <option value="게임">게임</option>
+                    <option value="아티스틱">아티스틱</option>
+                    <option value="그래픽">그래픽</option>
+                    <option value="Y2K">Y2K</option>
                 </select>
                     <button type="submit">선택</button>
+<!--
+                <th:block th:if="${selectedCategory}">
+                    <div class="image-box">
+                        <img th:each="image : ${randomImages}"
+                             th:src="@{'/static/images/' + ${selectedCategory} + '/' + ${image}}"
+                             alt="랜덤 이미지">
+                    </div>
+                </th:block>-->
+
+            </form>
                 <!-- 이미지 보여주기 -->
             <br>
             <div class="question2">
                 <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
                 <button>reload</button>
             </div>
+        <form>
         <div class="sel_category">
                     <th:block th:unless="${selectedCategory}">
                         <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
                         <th:block th:each="i : ${#numbers.sequence(1, 10)}">
                             <div class="image-box empty-box"></div>
                         </th:block>
-                    </th:block>
 
+                    </th:block>
                     <th:block th:if="${selectedCategory}">
-                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
-                            <!-- 랜덤 이미지를 표시하는 부분 -->
-                            <div class="image-box">
-                                <!-- 여기에 이미지 경로를 동적으로 설정 -->
-                                <img th:src="${randomImageUrl}" alt="랜덤 이미지">
-                            </div>
-                        </th:block>
+                        <div class="image-box">
+                            <img th:each="image : ${randomImages}"
+                                 th:src="@{'/images/' + ${selectedCategory} + '/' + ${image}}"
+                                 alt="랜덤 이미지">
+                        </div>
+                        <img th:src="@{/images/Animation/1.jpg}">
                     </th:block>
                     <br>
         </div>
                 <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
-            </form>
+        </form>
 
         </div>
         <div class="N02_1">
@@ -75,15 +86,15 @@
         <div class="N01_2">
             <p>1. 원하는 카테고리를 선택하시오.</p>
             <form th:action="@{/submitCategory2}" method="post">
-                <label for="category"> 카데고리 선택:</label>
+                <label for="category2"> 카데고리 선택:</label>
                 <select id="category2" name="category">
-                    <option value="1">에니메이션</option>
-                    <option value="2">패션</option>
-                    <option value="3">모던</option>
-                    <option value="4">게임</option>
-                    <option value="5">아티스틱</option>
-                    <option value="6">그래픽</option>
-                    <option value="7">Y2K</option>
+                    <option value="애니메이션">에니메이션</option>
+                    <option value="패션">패션</option>
+                    <option value="모던">모던</option>
+                    <option value="게임">게임</option>
+                    <option value="아티스틱">아티스틱</option>
+                    <option value="그래픽">그래픽</option>
+                    <option value="Y2K">Y2K</option>
                 </select>
                 <button type="submit">선택</button>
             </form>
