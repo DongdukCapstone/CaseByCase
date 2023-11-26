@@ -1,8 +1,9 @@
+/*
 package com.example.demo;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.Random;
 
 @Controller
 @RequestMapping("/casebycase")
-public class MainController {
+public class test {
 
     @GetMapping("/session1")
     public String session1() {
@@ -41,11 +38,11 @@ public class MainController {
 
 
 
-    /*  -----------------------------------    */
+
     private final CategoryService categoryService;
 
     @Autowired
-    public MainController(CategoryService categoryService) {
+    public test(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
@@ -56,7 +53,8 @@ public class MainController {
         String fileName = categoryService.getFileNameByKoreanName(selectedCategory);
 
         // 파일 경로를 생성
-        String filePath = "src/main/resources/static/images/" + fileName + "/";
+        String filePath = "/images/" + fileName + "/";
+
         // 랜덤으로 10개의 이미지 파일 선택
         List<String> randomImages = getRandomImages(filePath, 10);
 
@@ -68,9 +66,6 @@ public class MainController {
         // 모델에 데이터 추가
         redirectAttributes.addFlashAttribute("selectedCategory", selectedCategory);
         redirectAttributes.addFlashAttribute("randomImages", randomImages);
-        redirectAttributes.addFlashAttribute("fileName", fileName);
-
-
 
         // 결과 페이지로 이동
 
@@ -78,41 +73,44 @@ public class MainController {
 
     }
 
+
+
+
+
+
     // 주어진 디렉토리에서 랜덤으로 파일을 선택하는 메서드
     private List<String> getRandomImages(String directoryPath, int count) {
         List<String> images = new ArrayList<>();
         File directory = new File(directoryPath);
 
         // 디렉토리에서 파일 목록 가져오기
-        // File[] fileList = directory.listFiles();
+        File[] fileList = directory.listFiles();
 
-
-        // 디렉토리가 존재하는지 확인
-        File[] fileList = new File[0];
-        if (directory.exists() && directory.isDirectory()) {
-            // 디렉토리에서 파일 목록 가져오기
-            fileList = directory.listFiles();
-
-            if (fileList != null) {
-                if (fileList.length <= count) {
-                    // 만약 파일이 count보다 적다면 모든 파일을 반환
-                    for (File file : fileList) {
-                        images.add(file.getName());
-                    }
-                } else {
-                    // 랜덤으로 count개의 파일 선택
-                    Random random = new Random();
-                    for (int i = 0; i < count; i++) {
-                        int randomIndex = random.nextInt(fileList.length);
-                        images.add(fileList[randomIndex].getName());
-                    }
+        if (fileList != null) {
+            if (fileList.length <= count) {
+                // 만약 파일이 count보다 적다면 모든 파일을 반환
+                for (File file : fileList) {
+                    images.add(file.getName());
                 }
             } else {
-                System.err.println("File list is null for directory: " + directoryPath);
+                // 랜덤으로 count개의 파일 선택
+                Random random = new Random();
+                for (int i = 0; i < count; i++) {
+                    int randomIndex = random.nextInt(fileList.length);
+                    images.add(fileList[randomIndex].getName());
+                }
             }
-        } else {
-            System.err.println("Directory does not exist: " + directoryPath);
+        }else {
+            System.err.println("File list is null for directory: " + directoryPath);
         }
+
+        String[] names = directory.list();
+        if(directory.isDirectory()){
+            for(String name: names){
+                System.out.println(name);
+            }
+        }
+
 
         System.out.println("Directory Path: " + directoryPath);
         System.out.println("File List: " + Arrays.toString(fileList));
@@ -120,12 +118,10 @@ public class MainController {
 
 
         return images;
-
-
     }
 
 }
 
 
-
+        */
 

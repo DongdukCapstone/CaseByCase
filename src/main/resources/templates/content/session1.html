@@ -52,22 +52,14 @@
             </div>
         <form>
         <div class="sel_category">
-                    <th:block th:unless="${selectedCategory}">
-                        <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
-                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
-                            <div class="image-box empty-box"></div>
-                        </th:block>
-
-                    </th:block>
-                    <th:block th:if="${selectedCategory}">
-                        <div class="image-box">
-                            <img th:each="image : ${randomImages}"
-                                 th:src="@{'/images/' + ${selectedCategory} + '/' + ${image}}"
-                                 alt="랜덤 이미지">
-                        </div>
-                        <img th:src="@{/images/Animation/1.jpg}">
-                    </th:block>
-                    <br>
+            <th:block th:if="${selectedCategory}">
+                <div class="image-box">
+                    <img th:each="image : ${randomImages}"
+                         th:src="@{'/images/' + ${fileName} + '/' + ${image}}"
+                         alt="랜덤 이미지">
+                </div>
+            </th:block>
+            <br>
         </div>
                 <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
         </form>

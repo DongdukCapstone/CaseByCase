@@ -21,14 +21,14 @@ label{
     margin-left: 10px;
 }
 
-.sel_category{
+/*.sel_category{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     width: 70%;
     margin-top: 20px;
 
-}
+}*/
 
 /* 2번 문제 */
 .question2{
@@ -49,18 +49,18 @@ label{
 
 .image-box{
     width:100px;
-    height: 100ox;
-    margin: 5px;
-    position: relative;
-    overflow: hidden;
+/*    height: 100px;*/
+    margin-bottom: 10px;
+    grid-template-columns: repeat(5,1fr);
+    display: grid;
+    gap: 20px;
 }
 
 /* .image-box 내부 이미지 설정 */
 .image-box img {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    position: absolute;
     top: 0;
     left: 0;
 }
