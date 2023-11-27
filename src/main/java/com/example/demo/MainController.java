@@ -2,18 +2,10 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -122,6 +114,26 @@ public class MainController {
         return images;
 
 
+    }
+
+    @PostMapping("/reloadImages")
+    public String reloadImages(@ModelAttribute("selectedCategory") String selectedCategory,
+                               RedirectAttributes redirectAttributes) {
+        // 기존에 선택된 카테고리와 동일한 방식으로 랜덤 이미지 생성
+        String fileName = categoryService.getFileNameByKoreanName(selectedCategory);
+        String filePath = "src/main/resources/static/images/" + fileName + "/";
+        List<String> randomImages = getRandomImages(filePath, 10);
+
+        // 로깅 추가
+        System.out.println("Reloaded Random Images: " + randomImages);
+
+        // 모델에 데이터 추가
+
+        redirectAttributes.addFlashAttribute("selectedCategory", selectedCategory);
+        redirectAttributes.addFlashAttribute("randomImages", randomImages);
+        redirectAttributes.addFlashAttribute("fileName", fileName);
+        // 결과 페이지로 이동
+        return "redirect:/casebycase/session1";
     }
 
 }

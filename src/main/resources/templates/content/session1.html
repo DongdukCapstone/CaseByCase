@@ -7,7 +7,7 @@
       th:charset="UTF-8">
 <head>
     <meta charset="UTF-8" />
-    <title>Thymeleaf Layout</title>
+    <title>Case by Case</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 
     <link rel="stylesheet" th:href="@{/css/session1.css}" />
@@ -33,7 +33,7 @@
                     <option value="그래픽">그래픽</option>
                     <option value="Y2K">Y2K</option>
                 </select>
-                    <button type="submit">선택</button>
+                    <button type="submit" id="submitButton">선택</button>
 <!--
                 <th:block th:if="${selectedCategory}">
                     <div class="image-box">
@@ -43,15 +43,16 @@
                     </div>
                 </th:block>-->
 
-            </form>
-                <!-- 이미지 보여주기 -->
+
             <br>
+
             <div class="question2">
                 <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
-                <button>reload</button>
+                <button type="submit">다른 이미지 보기</button>
             </div>
+            </form>
         <form>
-        <div class="sel_category">
+        <div class="sel_category" th:fragment="imageList">
             <th:block th:if="${selectedCategory}">
                 <div class="image-box">
                     <img th:each="image : ${randomImages}"
@@ -103,12 +104,14 @@
         <form>
         <div class="sel_category">
 
+<!--
             <th:block th:unless="${selectedCategory2}">
-                <!-- 선택되지 않았을 때는 빈 네모박스 표시 -->
+                &lt;!&ndash; 선택되지 않았을 때는 빈 네모박스 표시 &ndash;&gt;
                 <th:block th:each="i : ${#numbers.sequence(1, 10)}">
                     <div class="image-box empty-box"></div>
                 </th:block>
             </th:block>
+-->
 
             <th:block th:if="${selectedCategory2}">
                 <th:block th:each="i : ${#numbers.sequence(1, 10)}">
@@ -124,6 +127,42 @@
         </form>
         </div>
     </div>
-</th:block>
 
-</html>
+
+    <script th:inline="javascript">
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 페이지 로드 시 실행되는 부분
+
+            // 서버에서 받아온 카테고리 값을 가져와서 표시
+            var selectedCategory = /*[[${selectedCategory}]]*/ '';
+            setCategorySelection(selectedCategory);
+        });
+
+        function setCategorySelection(category) {
+            // 선택한 카테고리를 옵션으로 설정
+            var categorySelect = document.getElementById('category');
+            if (categorySelect) {
+                for (var i = 0; i < categorySelect.options.length; i++) {
+                    if (categorySelect.options[i].value === category) {
+                        categorySelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 카테고리 폼을 제출할 때 실행되는 함수
+        document.getElementById('categoryForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // 기본 동작을 막음
+
+            // 서버로 폼을 제출
+            this.submit();
+        });
+
+
+    </script>
+    </th:block>
+
+
+    </html>

@@ -15,4 +15,9 @@ public class CategoryService {
         System.out.println("DEBUG: Invalid category input - " + koreanName);
     throw new IllegalArgumentException("Invalid category: " + koreanName);
 }
+
+
+
+
+
 }
