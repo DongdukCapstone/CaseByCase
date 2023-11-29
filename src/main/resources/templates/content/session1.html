@@ -34,15 +34,6 @@
                     <option value="Y2K">Y2K</option>
                 </select>
                     <button type="submit" id="submitButton">선택</button>
-<!--
-                <th:block th:if="${selectedCategory}">
-                    <div class="image-box">
-                        <img th:each="image : ${randomImages}"
-                             th:src="@{'/static/images/' + ${selectedCategory} + '/' + ${image}}"
-                             alt="랜덤 이미지">
-                    </div>
-                </th:block>-->
-
 
             <br>
 
@@ -54,15 +45,17 @@
         <form>
         <div class="sel_category" th:fragment="imageList">
             <th:block th:if="${selectedCategory}">
-                <div class="image-box">
-                    <img th:each="image : ${randomImages}"
-                         th:src="@{'/images/' + ${fileName} + '/' + ${image}}"
-                         alt="랜덤 이미지">
+                <div class="image-box" th:each="image : ${randomImages}">
+                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
+                <div>
+                <input type="checkbox" th:id="${'checkbox-' + image}" class="image-checkbox">
+                <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+                </div>
                 </div>
             </th:block>
             <br>
         </div>
-                <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
+            <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
         </form>
 
         </div>
@@ -160,6 +153,22 @@
             this.submit();
         });
 
+        //체크박스 3개까지만 선택 가능
+
+        document.addEventListener('DOMContentLoaded', function () {
+        var checkboxes = document.querySelectorAll('.image-checkbox');
+        var maxAllowed = 3;
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var checkedCheckboxes = document.querySelectorAll('.image-checkbox:checked');
+
+                if (checkedCheckboxes.length > maxAllowed) {
+                    this.checked = false;
+                }
+            });
+        });
+    });
 
     </script>
     </th:block>

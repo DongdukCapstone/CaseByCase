@@ -21,14 +21,11 @@ label{
     margin-left: 10px;
 }
 
-/*.sel_category{
+.sel_category{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 0.1fr);
     gap: 10px;
-    width: 70%;
-    margin-top: 20px;
-
-}*/
+}
 
 /* 2번 문제 */
 .question2{
@@ -48,12 +45,11 @@ label{
 }
 
 .image-box{
-    width:100px;
-/*    height: 100px;*/
+    width:110px;
     margin-bottom: 10px;
-    grid-template-columns: repeat(5,1fr);
-    display: grid;
-    gap: 20px;
+/*    grid-template-columns: repeat(5,1fr);*/
+    display: flex;
+    flex-direction: column;
 }
 
 /* .image-box 내부 이미지 설정 */
