@@ -33,7 +33,8 @@ public class MainController {
 
 
 
-    /*  -----------------------------------    */
+
+
     private final CategoryService categoryService;
 
     @Autowired
