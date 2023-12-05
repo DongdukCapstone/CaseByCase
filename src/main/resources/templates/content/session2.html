@@ -22,188 +22,101 @@
         <div class="category font-center">
             <div class="fancy">Animation</div>
             <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Animation/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Animation/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Animation/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Animation/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Animation/51.jpg" alt="Animation">
-                </div>
-                <div>애니메이션<hr>
-                    #애니매이션 #카툰 #다양한 장르의 캐릭터 <br>
-                    -애니메이션<br>
-                    -카툰
-                </div>
-            </div>
-        </div>
-        <div class="category font-center">
-            <div class="fancy">Art</div>
-            <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Art/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Art/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Art/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Art/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Art/51.jpg" alt="Animation">
-                </div>
-                    <div> 아트<hr>
-                        #초현실주의 #팝아트 #초상화 #수채화<br>
-                        -미술 <br>
-                        -초현실주의: 이성의 굴레에서 벗어난 세계<br>
-                        -팝아트: 대중문화와 일상적인 사물들을 예술의 소재로 삼은 아트 <br>
-                        -초상화
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
                     </div>
-            </div>
+                </th:block>
+                <div>애니메이션 카테고리는요</div>
             </div>
         </div>
         <div class="category font-center">
             <div class="fancy">Fashion</div>
             <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Fashion/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Fashion/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Fashion/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Fashion/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Fashion/51.jpg" alt="Animation">
-                </div>
-                <div>패션<hr>
-                    #집시 #자유분방 #앤티크 #프린팅 <br>
-                    -보헤미안: 유랑 민족인 집시를 보헤미안이라고 불렀던 것에서 유래된 사회의 관습에 구애되지 않는 방랑자, 자유분방한 생활스타일 <br>
-                    -홀리데이 프린트 <br>
-                    -코티지코어: 시골에 있는 작은 집, 시골에서의 단순한 생활을 추구하는 스타일<br>
-                    -프린트 </div>
-            </div>
-        </div>
-
-        <div class="category font-center">
-            <div class="fancy">Game</div>
-            <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Game/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Game/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Game/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Game/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Game/51.jpg" alt="Animation">
-                </div>
-                <div>게임<hr>
-                    #힙 #다크 #스트릿 <br>
-                    -게임<br>
-                    -다크 아카데미아: 고전 예술부터 고딕 스타일까지 두루 포함한 유럽풍 범생이느낌, 어둡고 깊은 느낌<br>
-                    -Hype: 과장된 스타일<br>
-                    -스트릿아트
-                </div>
-            </div>
-        </div>
-        <div class="category font-center">
-            <div class="fancy">Graphic</div>
-            <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Graphic/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Graphic/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Graphic/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Graphic/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Graphic/51.jpg" alt="Animation">
-                </div>
-                <div>그래픽<hr>
-                    #라인 #기호 #캘리그라피<br>
-                    -라인 아트<br>
-                    -타이포그래피: 문자 또는 활판적 기호를 중심으로 한 2차원적 표현
-                </div>
-
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div> 패션 카테고리는요</div>
             </div>
         </div>
         <div class="category font-center">
             <div class="fancy">Modern</div>
             <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Modern/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Modern/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Modern/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Modern/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Modern/51.jpg" alt="Animation">
-                </div>
-                <div>모던<hr>
-                    #미래주의 #포토그래피 #추상적 <br>
-                    -포토그래퍼<br>
-                    -퓨처리즘: 전통적인 예쑬을 부정하면서 도시와 기계 문명의 역동성과 속도감을 새로운  미(美)의 가치로 승화시킨 스타일 = 미래주의<br>
-                    -추상적
-                </div>
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>모던 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Game</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>게임 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Art</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>아트 카테고리는요</div>
+            </div>
+        </div>
+        <div class="category font-center">
+            <div class="fancy">Graphic</div>
+            <div class="show_category">
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                            <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                            <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                        </div>
+                    </div>
+                </th:block>
+                <div>그래픽 카테고리는요</div>
             </div>
         </div>
         <div class="category font-center">
             <div class="fancy">Y2K</div>
             <div class="show_category">
-                <div class="image-box">
-                    <img src="/images/Y2K/1.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Y2K/21.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Y2K/31.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Y2K/41.jpg" alt="Animation">
-                </div>
-                <div class="image-box">
-                    <img src="/images/Y2K/51.jpg" alt="Animation">
-                </div>
-                <div>Y2K<hr>
-                    #2000년대 #요즘핫 #미니멀 #맥시멀<br>
-                    -맥시멀<br>
-                    -미니멀
-                </div>
+                <th:block th:each="i : ${#numbers.sequence(1, 4)}">
+                    <div class="image-box empty-box">
+                        <div class="image-box">
+                        <!-- 여기에 이미지 경로를 동적으로 설정 -->
+                        <img th:src="${randomImageUrl}" alt="랜덤 이미지">
+                    </div></div>
+                </th:block>
+                <div>Y2K 카테고리는요</div>
             </div>
         </div>
-        </div>
+    </div>
     </th:block>
 </body>
 </html>

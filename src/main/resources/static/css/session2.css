@@ -17,10 +17,10 @@
 
 .show_category{
     display: grid;
-    grid-template-columns: repeat(5, 1fr) 5fr;
-    gap: 5px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
     background-color: yellow;
 
 }
@@ -36,8 +36,8 @@
     margin: 5px;
 }
 .image-box{
-    width:150px;
-    height: 150px;
+    width:100px;
+    height: 100ox;
     margin: 5px;
     position: relative;
     overflow: hidden;
