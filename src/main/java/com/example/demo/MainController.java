@@ -1,15 +1,15 @@
 package com.example.demo;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 @Controller
 @RequestMapping("/casebycase")
@@ -36,11 +36,16 @@ public class MainController {
 
 
     private final CategoryService categoryService;
-
+    @Autowired
+    private  RestTemplate restTemplate;
     @Autowired
     public MainController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+
+
+
+
 
     @PostMapping("/submitCategory")
     public String submitCategory(@RequestParam("category") String selectedCategory, RedirectAttributes redirectAttributes) {
@@ -52,6 +57,7 @@ public class MainController {
         String filePath = "src/main/resources/static/images/" + fileName + "/";
         // 랜덤으로 10개의 이미지 파일 선택
         List<String> randomImages = getRandomImages(filePath, 10);
+
 
         // 로깅 추가
         System.out.println("Selected Category: " + selectedCategory);
@@ -70,6 +76,7 @@ public class MainController {
         return "redirect:/casebycase/session1";
 
     }
+
 
     // 주어진 디렉토리에서 랜덤으로 파일을 선택하는 메서드
     private List<String> getRandomImages(String directoryPath, int count) {
@@ -111,9 +118,7 @@ public class MainController {
         System.out.println("File List: " + Arrays.toString(fileList));
         System.out.println("Selected Random Images: " + images);
 
-
         return images;
-
 
     }
 
@@ -136,6 +141,21 @@ public class MainController {
         // 결과 페이지로 이동
         return "redirect:/casebycase/session1";
     }
+
+
+
+
+
+
+
+
+    @PostMapping("/selectedImages1")
+    public String recommend(@ModelAttribute("selectedCategory") String selectedCategory, @RequestBody Map<String, Object> requestBody){
+
+        return null;
+    }
+
+
 
 }
 

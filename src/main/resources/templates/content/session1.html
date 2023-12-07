@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html
-      lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}"
-      th:charset="UTF-8">
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/layout}"
+        th:charset="UTF-8" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8" />
     <title>Case by Case</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 
     <link rel="stylesheet" th:href="@{/css/session1.css}" />
-    <!-- content script -->
-    <th:block layout:fragment="script"></th:block>
+    <!-- content script    <th:block layout:fragment="script"> -->
+    <script th:inline="javascript" defer>
+
+    </script>
 </head>
 
 <th:block layout:fragment="content">
@@ -36,28 +38,32 @@
                     <button type="submit" id="submitButton">선택</button>
 
             <br>
-
             <div class="question2">
                 <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
                 <button type="submit">다른 이미지 보기</button>
             </div>
             </form>
-        <form>
+
         <div class="sel_category" th:fragment="imageList">
             <th:block th:if="${selectedCategory}">
                 <div class="image-box" th:each="image : ${randomImages}">
                     <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
                 <div>
-                <input type="checkbox" th:id="${'checkbox-' + image}" class="image-checkbox">
+                <input type="checkbox" th:id="${'checkbox-' + image}" id="selectedImagesInput" class="image-checkbox">
                 <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
                 </div>
                 </div>
             </th:block>
             <br>
         </div>
-            <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
+        <form th:action="@{/casebycase/selectedImages}" method="post">
+            <input type="text" name="category" value="${selectedCategory}" style="display: none" />
+            <div>
+                <label th:text="${selectedCategory}" id="sel_CA"></label>
+                <input type="text" name="img_num" id="img_num"/>
+                <button type="submit" id="submitImagesButton">이미지 선택하기</button>
+             </div>
         </form>
-
         </div>
         <div class="N02_1">
             <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
@@ -66,6 +72,36 @@
                 <button type="submit">업로드</button>
             </form>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="testtitle">
             <p class="title" id="test2">PART 2</p>
         </div>
@@ -97,15 +133,6 @@
         <form>
         <div class="sel_category">
 
-<!--
-            <th:block th:unless="${selectedCategory2}">
-                &lt;!&ndash; 선택되지 않았을 때는 빈 네모박스 표시 &ndash;&gt;
-                <th:block th:each="i : ${#numbers.sequence(1, 10)}">
-                    <div class="image-box empty-box"></div>
-                </th:block>
-            </th:block>
--->
-
             <th:block th:if="${selectedCategory2}">
                 <th:block th:each="i : ${#numbers.sequence(1, 10)}">
                     <!-- 이미지를 표시하는 부분 -->
@@ -116,95 +143,10 @@
             </th:block>
             <br>
         </div>
-            <button type="button" onclick="submitSelectedImages()">이미지 선택하기</button>
+            <button type="button"> 이미지 선택하기</button>
         </form>
         </div>
     </div>
 
-
-    <script th:inline="javascript">
-
-
-
-    function submitSelectedImages() {
-        // 선택된 이미지의 체크박스 요소를 찾습니다.
-        var checkboxes = document.getElementsByClassName('image-checkbox');
-
-        // 선택된 이미지들의 파일 이름을 저장할 배열을 초기화합니다.
-        var selectedImageNames = [];
-
-        // 체크된 이미지의 파일 이름을 배열에 추가합니다.
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                var imageName = checkboxes[i].id.replace('checkbox-', '');
-                // 확장자 제거 후 이미지 이름만을 배열에 추가합니다.
-                selectedImageNames.push(imageName.split('.')[0]);
-            }
-        }
-
-        // 선택된 이미지 이름들을 출력하거나 서버로 전송할 수 있습니다.
-        console.log("선택된 이미지 이름들:", selectedImageNames);
-
-        // 서버로 전송하는 로직을 추가하거나 선택된 이미지 이름들을 활용하는 로직을 작성하세요.
-        // 여기서는 간단히 콘솔에 출력하는 것으로 대체합니다.
-    mockServerRequest(selectedImageNames);
-    }
-
-function mockServerRequest(selectedImageNames) {
-    // 여기서는 서버 요청 대신 콘솔에 출력하는 것으로 가정합니다.
-    console.log("서버로 전송할 데이터:", selectedImageNames);
-
-    // 여기에 선택된 이미지들을 서버로 전송하고, 서버로부터 유사도를 계산한 결과를 받아오는 코드를 작성할 수 있습니다.
-
-    // 예시: 선택된 이미지들과 카테고리 데이터를 서버로 전송
-    var requestData = {
-        selectedImages: selectedImageNames,
-        categoryData: aniDict  // 이 부분은 선택된 카테고리에 맞게 변경되어야 합니다.
-    };
-
-
-}
-
-
-
-    </script>
     </th:block>
     </html>
-
-<!--
-
-
-    // 서버로 전송 후, 유사도 계산 결과를 받아옵니다.
-    var serverResponse = mockServerResponse(requestData);
-
-    // 서버 응답에서 유사도 계산 결과를 콘솔에 출력
-    console.log("서버 응답:", serverResponse);
-
-function mockServerResponse(requestData) {
-    // 여기서는 간단히 선택된 이미지들과 카테고리 데이터를 활용하여 유사도를 계산한 결과를 반환하는 것으로 가정합니다.
-    var categoryData = requestData.categoryData;
-    var selectedImages = requestData.selectedImages;
-
-    var simResult = {};
-
-    // 각 선택된 이미지에 대해 유사도 계산
-    selectedImages.forEach(function (imageName) {
-        var query_embedding = categoryData[imageName];
-        var similarities = {};
-
-        // 데이터셋의 각 항목에 대해 반복
-        for (var filename in categoryData) {
-            if (filename !== imageName) {
-                var embedding = categoryData[filename];
-                similarities[filename] = distance.cosine(embedding, query_embedding);
-            }
-        }
-
-        simResult[imageName] = similarities;
-    });
-
-    return simResult;
-}
-
-
--->

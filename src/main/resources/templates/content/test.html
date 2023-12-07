@@ -1,0 +1,196 @@
+<!--
+
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/layout}"
+        th:charset="UTF-8" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Case by Case</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{/css/session1.css}" />
+content script    <th:block layout:fragment="script">
+<script th:inline="javascript" defer>
+    function submitSelectedImages() {
+
+    // 'category' 셀렉트 박스 엘리먼트 가져오기
+        var categorySelect = document.getElementById('category');
+
+    // 선택된 옵션의 값 가져오기
+        var selectedCategoryValue = categorySelect.options[categorySelect.selectedIndex].value;
+        var checkboxes = document.getElementsByClassName('image-checkbox');
+        var selectedImageNames = [];
+
+        // 체크된 이미지의 파일 이름을 배열에 추가합니다.
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                var imageName = checkboxes[i].id.replace('checkbox-', '');
+                // 확장자 제거 후 이미지 이름만을 배열에 추가합니다.
+                selectedImageNames.push(imageName.split('.')[0]);
+            }
+        }
+
+        // 선택된 이미지 이름들을 출력하거나 서버로 전송
+        console.log("선택된 이미지 이름들:", selectedImageNames);
+
+    fetch('/casebycase/submitSelectedImages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ selectedImages: selectedImageNames,
+         category: selectedCategoryValue}),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Image Similarity Result:', data))
+    .catch(error => console.error('Error:', error));
+
+}
+    document.addEventListener('DOMContentLoaded', function() {
+        // 이미지 선택하기 버튼 클릭 시 함수 호출
+        document.getElementById('submitImagesButton').addEventListener('click', function () {
+            submitSelectedImages();
+        });
+    });
+
+</script>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="content">
+        <div class="testtitle">
+            <p class="title" id="test1">PART 1</p>
+        </div>
+        <div class="N01_1">
+            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <form th:action="@{/casebycase/submitCategory}" method="post">
+                <label for="category"> 카데고리 선택:</label>
+                <select id="category" name="category">
+                    <option value="애니메이션">애니메이션</option>
+                    <option value="패션">패션</option>
+                    <option value="모던">모던</option>
+                    <option value="게임">게임</option>
+                    <option value="아티스틱">아티스틱</option>
+                    <option value="그래픽">그래픽</option>
+                    <option value="Y2K">Y2K</option>
+                </select>
+                <button type="submit" id="submitButton">선택</button>
+
+                <br>
+
+                <div class="question2">
+                    <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
+                    <button type="submit">다른 이미지 보기</button>
+                </div>
+            </form>
+            <!-- <form th:action="@{/casebycase/submitSelectedImages}" method="post">
+
+            <div class="sel_category" th:fragment="imageList">
+                <th:block th:if="${selectedCategory}">
+                    <div class="image-box" th:each="image : ${randomImages}">
+                        <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
+                        <div>
+                            <input type="checkbox" th:id="${'checkbox-' + image}" id="selectedImagesInput" class="image-checkbox">
+                            <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+                        </div>
+                    </div>
+                </th:block>
+                <br>
+            </div>
+            <div>
+                <input type="text" id="img_num"/>
+                <button onclick="submitSelectedImages()" id="submitImagesButton">이미지 선택하기</button>
+            </div>
+        </div>
+        <div class="N02_1">
+            <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
+            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+                <input type="file" name="file" accept="image/*" />
+                <button type="submit">업로드</button>
+            </form>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="testtitle">
+            <p class="title" id="test2">PART 2</p>
+        </div>
+        <div class="N01_2">
+            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <form th:action="@{/submitCategory2}" method="post">
+                <label for="category2"> 카데고리 선택:</label>
+                <select id="category2" name="category">
+                    <option value="애니메이션">에니메이션</option>
+                    <option value="패션">패션</option>
+                    <option value="모던">모던</option>
+                    <option value="게임">게임</option>
+                    <option value="아티스틱">아티스틱</option>
+                    <option value="그래픽">그래픽</option>
+                    <option value="Y2K">Y2K</option>
+                </select>
+                <button type="submit">선택</button>
+            </form>
+        </div>
+        <!-- 이미지 업로드
+        <br>
+        <div class="N02_2">
+            <p class="question2_p">2. 사용자께서 사용한 휴대폰 케이스를 업로드 해주세요.</p>
+            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+                <input type="file" name="file" accept="image/*" />
+                <button type="submit">업로드</button>
+            </form>
+
+            <form>
+                <div class="sel_category">
+
+                    <th:block th:if="${selectedCategory2}">
+                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                            <!-- 이미지를 표시하는 부분
+                            <div class="image-box">
+
+                            </div>
+                        </th:block>
+                    </th:block>
+                    <br>
+                </div>
+                <button type="button"> 이미지 선택하기</button>
+            </form>
+        </div>
+    </div>
+
+</th:block>
+</html>
+
+
+-->
