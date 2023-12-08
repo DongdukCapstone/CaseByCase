@@ -56,7 +56,18 @@
             </th:block>
             <br>
         </div>
-        <form th:action="@{/casebycase/selectedImages}" method="post">
+
+
+
+
+
+
+
+
+
+
+
+        <form th:action="@{/casebycase/mapping/selectImages}" method="post">
             <input type="text" name="category" value="${selectedCategory}" style="display: none" />
             <div>
                 <label th:text="${selectedCategory}" id="sel_CA"></label>
@@ -65,15 +76,27 @@
              </div>
         </form>
         </div>
+
         <div class="N02_1">
             <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
-            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
-                <input type="file" name="file" accept="image/*" />
+            <form th:action="@{/casebycase/mapping/upload}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+                <input type="file" name="user_file" accept="image/*" />
                 <button type="submit">업로드</button>
             </form>
         </div>
-
-
+        <form th:action="@/casebycase/mapping/recommend" method="post">
+            <button type="submit" id="recommend_btn">추천 받기</button>
+        </form>
+        <div class="Part1_img">
+            <th:block th:if="${sel_Part1}">
+                <div class="part1_box" th:each="image : ${Images}">
+                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
+                    <div>
+                        <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+                    </div>
+                </div>
+            </th:block>
+        </div>
 
 
 

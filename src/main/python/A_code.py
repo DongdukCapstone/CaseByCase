@@ -1,123 +1,129 @@
+import sys
 from flask import Flask, render_template, request, jsonify
 from scipy.spatial import distance
 import numpy as np
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
-apiUrl = "http://localhost:8081/casebycase/submitSelectedImages"
+from sklearn.metrics.pairwise import cosine_similarity
 
 
-array_ani = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Animation.npy')
-# 나머지 이미지 데이터도 동일하게 수정
+def main():
 
-# 초기화된 딕셔너리 생성
-ani_dict = {}
+    # 스크립트 이름은 첫 번째 요소이므로 무시합니다.
+    script_name = sys.argv[0]
 
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_ani)):
-    key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
-    value = array_ani[i]  # 원하는 값 (예: array_anime)을 할당
-    ani_dict[key] = value  # 딕셔너리에 추가
+    # 선택된 카테고리는 두 번째 요소입니다.
+    fileName = sys.argv[1]
 
-print(ani_dict)
+    # 이미지 번호 목록은 세 번째 요소부터입니다.
+    selected_images = sys.argv[2].split(',')
 
 
-array_y2k = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Y2K.npy')
+    # 여기서 원하는 로직을 수행합니다.
+    print("Script Name:", script_name)
+    print("Selected Category:", fileName)
+    print("img_num_list")
+    for img_num in selected_images:
+        print(img_num)
 
-# 초기화된 딕셔너리 생성
-y2k_dict = {}
-
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_y2k)):
-    key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
-    value = array_y2k[i]  # 원하는 값 (예: array_anime)을 할당
-    y2k_dict[key] = value  # 딕셔너리에 추가
-
-print(y2k_dict)
+    # 파일 데이터 읽기
+    user_file = sys.stdin.buffer.read()
 
 
-array_game = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Game.npy')
+    array_ani = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Animation.npy')
+    # 나머지 이미지 데이터도 동일하게 수정
+
+    # 초기화된 딕셔너리 생성
+    ani_dict = {}
+
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_ani)):
+        key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
+        value = array_ani[i]  # 원하는 값 (예: array_anime)을 할당
+        ani_dict[key] = value  # 딕셔너리에 추가
+
+    print(ani_dict)
 
 
-# 초기화된 딕셔너리 생성
-game_dict = {}
+    array_y2k = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Y2K.npy')
 
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_game)):
-    key = f'{i}'  # 'anime_숫자' 형태의 키 생성
-    value = array_game[i]  # 원하는 값 (예: array_anime)을 할당
-    game_dict[key] = value  # 딕셔너리에 추가
+    # 초기화된 딕셔너리 생성
+    y2k_dict = {}
 
-print(game_dict)
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_y2k)):
+        key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
+        value = array_y2k[i]  # 원하는 값 (예: array_anime)을 할당
+        y2k_dict[key] = value  # 딕셔너리에 추가
 
-array_art = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Art.npy')
-
-# 초기화된 딕셔너리 생성
-art_dict = {}
-
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_art)):
-    key = f'{i}'  # 'anime_숫자' 형태의 키 생성
-    value = array_art[i]  # 원하는 값 (예: array_anime)을 할당
-    art_dict[key] = value  # 딕셔너리에 추가
-
-print(art_dict)
+    print(y2k_dict)
 
 
-array_fashion = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Fashion.npy')
-
-# 초기화된 딕셔너리 생성
-fashion_dict = {}
-
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_fashion)):
-    key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
-    value = array_fashion[i]  # 원하는 값 (예: array_anime)을 할당
-    fashion_dict[key] = value  # 딕셔너리에 추가
-
-print(fashion_dict)
-
-array_modern = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Modern.npy')
-
-# 초기화된 딕셔너리 생성
-modern_dict = {}
-
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_modern)):
-    key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
-    value = array_modern[i]  # 원하는 값 (예: array_anime)을 할당
-    modern_dict[key] = value  # 딕셔너리에 추가
-
-print(modern_dict)
-
-array_graphic = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Graphic.npy')
-
-# 초기화된 딕셔너리 생성
-graphic_dict = {}
-
-# 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-for i in range(0, len(array_graphic)):
-    key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
-    value = array_graphic[i]  # 원하는 값 (예: array_anime)을 할당
-    graphic_dict[key] = value  # 딕셔너리에 추가
+    array_game = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Game.npy')
 
 
-@app.route('/casebycase/selectedImages', methods=['POST'])
-def submit_selected_images():
+    # 초기화된 딕셔너리 생성
+    game_dict = {}
+
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_game)):
+        key = f'{i}'  # 'anime_숫자' 형태의 키 생성
+        value = array_game[i]  # 원하는 값 (예: array_anime)을 할당
+        game_dict[key] = value  # 딕셔너리에 추가
+
+    print(game_dict)
+
+    array_art = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Art.npy')
+
+    # 초기화된 딕셔너리 생성
+    art_dict = {}
+
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_art)):
+        key = f'{i}'  # 'anime_숫자' 형태의 키 생성
+        value = array_art[i]  # 원하는 값 (예: array_anime)을 할당
+        art_dict[key] = value  # 딕셔너리에 추가
+
+    print(art_dict)
 
 
-    # 폼에서 전송된 데이터 받기
-    input_str = request.form.get('img_num', '')
+    array_fashion = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Fashion.npy')
 
-    # 입력된 문자열을 공백이나 쉼표로 분리하여 리스트로 만들기
-    selected_images = input_str.replace(',', ' ').split()
+    # 초기화된 딕셔너리 생성
+    fashion_dict = {}
 
-    # 폼에서 선택된 카테고리 값 가져오기
-    fileName = request.form.get('selectedCategory', '')
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_fashion)):
+        key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
+        value = array_fashion[i]  # 원하는 값 (예: array_anime)을 할당
+        fashion_dict[key] = value  # 딕셔너리에 추가
 
-    # fileName = request.json.get('selectedCategoryValue')
+    print(fashion_dict)
 
+    array_modern = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Modern.npy')
+
+    # 초기화된 딕셔너리 생성
+    modern_dict = {}
+
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_modern)):
+        key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
+        value = array_modern[i]  # 원하는 값 (예: array_anime)을 할당
+        modern_dict[key] = value  # 딕셔너리에 추가
+
+    print(modern_dict)
+
+    array_graphic = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Graphic.npy')
+
+    # 초기화된 딕셔너리 생성
+    graphic_dict = {}
+
+    # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
+    for i in range(0, len(array_graphic)):
+        key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
+        value = array_graphic[i]  # 원하는 값 (예: array_anime)을 할당
+        graphic_dict[key] = value  # 딕셔너리에 추가
+
+
+    # 파일 이름 별로 dict 연결 하기
     if fileName == '애니메이션':
         category_dict = ani_dict
     elif fileName == '아티스틱':
@@ -137,7 +143,6 @@ def submit_selected_images():
     data = {key: value for key, value in category_dict.items()}
     print(data)
     result = {key: value for key, value in category_dict.items() if key in selected_images}
-
 
     sim_3 = {}
     # 상위 30개 유사도 값을 저장할 리스트
@@ -170,8 +175,27 @@ def submit_selected_images():
     print(sorted_top_30)
 
 
-    return render_template('session1.html')
+
+    # 이미지 리스트에서 상위 30개 이미지 가져오기
+    top_30_images = [item[0] for item in sorted_top_30]
+
+    # 사용자 파일 데이터 읽기
+    user_file_data = np.frombuffer(sys.stdin.buffer.read(), dtype=np.uint8)
+
+    # 이미지 리스트와 사용자 파일의 유사도 계산
+    similarities = {filename: cosine_similarity(user_file_data.reshape(1, -1), embedding.reshape(1, -1))[0, 0]
+                    for filename, embedding in data.items() if filename in top_30_images}
+
+    # 유사도를 기준으로 정렬
+    sorted_similarities = sorted(similarities.items(), key=lambda x: x[1], reverse=True)
+
+    # 상위 10개 이미지 추출
+    top_10 = sorted_similarities[:10]
+
+    # 결과 출력
+    print("Top 10 유사도 값:")
+    print(top_10)
 
 
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=8081)
+if __name__ == "__main__":
+    main()
