@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/casebycase/mapping")
-public class ApiController{
+public class ImageController {
 
     private List<String> imgNumList;
 
@@ -88,13 +88,22 @@ public class ApiController{
                     // Python 스크립트의 결과를 읽어옴
                     List<String> pythonScriptOutput = readPythonScriptOutput(process);
 
+                    List<String> top10Images = new ArrayList<>();
+                    boolean foundTop10Header = false;
+
                     // pythonScriptOutput을 이용하여 필요한 작업 수행
                     for (String line : pythonScriptOutput) {
+                        if (foundTop10Header) {
+                            // "Top 10 유사도 값:" 이후의 라인은 이미지 정보로 간주
+                            top10Images.add(line);
+
+                            // 상위 10개 이미지 정보를 읽었다면 반복문 종료
+                            if (top10Images.size() >= 10) break;
+                        }
+
                         if (line.startsWith("Top 10 유사도 값:")) {
                             // 해당 라인에서 필요한 작업을 수행 (예: 다음 라인부터 10개 이미지 정보를 읽음)
-                            // ...
-
-                            break;  // 필요한 정보를 읽었다면 반복문 종료
+                            foundTop10Header = true;
                         }
                     }
                     return ResponseEntity.ok("ok");
