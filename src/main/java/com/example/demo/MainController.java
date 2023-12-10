@@ -20,6 +20,12 @@ public class MainController {
         return "content/session1";
     }
 
+    @PostMapping("/session1")
+    public String handlePostRequest() {
+        // Handle the POST request here
+        return "redirect:/casebycase/session1";
+    }
+
     @GetMapping("/session2")
     public String session2() {
         return "content/session2";
@@ -36,8 +42,8 @@ public class MainController {
 
 
     private final CategoryService categoryService;
-    @Autowired
-    private  RestTemplate restTemplate;
+
+
     @Autowired
     public MainController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -145,15 +151,6 @@ public class MainController {
 
 
 
-
-
-
-
-    @PostMapping("/selectedImages1")
-    public String recommend(@ModelAttribute("selectedCategory") String selectedCategory, @RequestBody Map<String, Object> requestBody){
-
-        return null;
-    }
 
 
 

@@ -1,33 +1,40 @@
 package com.example.demo;
 
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-@RestController
+
+@Controller
 @RequestMapping("/casebycase/mapping")
 public class ImageController {
 
     private List<String> imgNumList;
 
-    // 이미지 선택 폼에서 호출하는 엔드포인트
     @PostMapping("/selectImages")
-    public ResponseEntity<String> selectImages(
-            @RequestParam(required = true) String img_num
-    ) {
+    public String selectImages(
+            @RequestParam(required = true) String img_num,
+            HttpSession session
+    ) { List<String> imgNumList = Arrays.asList(img_num.split("[,\\s]+"));
 
-        // img_num을 빈칸이나 ,로 나누어 리스트 형태로 변환
-        imgNumList = Arrays.asList(img_num.split("[,\\s]+"));
+        // Session에 imgNumList를 저장
+        session.setAttribute("imgNumList", imgNumList);
 
-        return ResponseEntity.ok("Images selected successfully");
+        // Session에서 다른 속성들을 읽어와서 다시 저장
+        String selectedCategory = (String) session.getAttribute("selectedCategory");
+        List<String> randomImages = (List<String>) session.getAttribute("randomImages");
+        String fileName = (String) session.getAttribute("fileName");
+
+        return "redirect:/casebycase/session1";
     }
 
     // 이미지 업로드 폼에서 호출하는 엔드포인트
@@ -49,14 +56,18 @@ public class ImageController {
     @PostMapping("/request")
     public ResponseEntity<String> toPython(
             @RequestParam(required = true) String selectedCategory,
-            @RequestParam(required = true) String img_num,
             @RequestParam("user_file") MultipartFile file,
+            Model model,
             UriComponentsBuilder uriComponentsBuilder
     )throws IOException, InterruptedException {
             try {
 
+                // Model을 사용하여 imgNumList 값을 가져옴
+                List<String> imgNumList = (List<String>) model.getAttribute("imgNumList");
+
+
                 // Python 스크립트에 데이터 전달 및 실행
-                String pythonScriptPath = "src/main/python/A_code.py";
+                String pythonScriptPath = "C:/Users/82105/OneDrive/바탕 화면/Case/src/main/python/A_code.py";
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "python", pythonScriptPath, selectedCategory, String.join(",",imgNumList));
 
