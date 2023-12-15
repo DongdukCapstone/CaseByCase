@@ -24,48 +24,29 @@ public class ImageController {
             RedirectAttributes redirectAttributes, HttpSession session) {
         List<String> imgNumList = Arrays.asList(img_num.split("[,\\s]+"));
 
-        // Session에 imgNumList를 저장
         session.setAttribute("imgNumList", imgNumList);
 
         System.out.println("imgnumlist 확인중: " + imgNumList);
-
-        // Session에서 다른 속성들을 읽어와서 다시 저장
 
         String selectedCategory = (String) session.getAttribute("selectedCategory");
         List<String> randomImages = (List<String>) session.getAttribute("randomImages");
         String fileName = (String) session.getAttribute("fileName");
 
         System.out.println("selectedCategory 확인중: " + selectedCategory);
+        // ex) selectedCategory 확인 중: 애니메이션
         System.out.println("randomImages 확인중: " + randomImages);
+        // randomImages 확인중: [699.jpg, 2117.jpg, 2455.jpg, 1053.jpg, 581.jpg, 1144.jpg, 82.jpg, 286.jpg, 192.jpg, 225.jpg]
         System.out.println("fileName 확인중: " + fileName);
+        // fileName 확인중: Animation
         System.out.println("Session 확인중: " + session);
-
-        return "redirect:/casebycase/session1";
+        return "forward:/casebycase/session1";
     }
 
-    // 아래부분 필요없음, 파일타입은 세션에 담기에 너무 커서 업로드 없애고 request에 한번에 담아주는게 나음
 
-    // // 이미지 업로드 폼에서 호출하는 엔드포인트
-    // @PostMapping("/upload")
-    // public String handleFileUpload(@RequestParam("user_file") MultipartFile file) {
-    //     // 이미지 업로드를 처리하는 로직을 작성
-    //     try {
-    //         // 임시 파일로 저장하지 않고 MultipartFile을 직접 전송
-    //         byte[] fileBytes = file.getBytes();
-
-    //         System.out.println("파일 업로드 성공");
-    //         //redirect to session1
-    //         return "redirect:/casebycase/session1";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         System.out.println("파일 업로드 실패");
-    //         return "redirect:/casebycase/session1";
-    //     }
-    // }
 
     @PostMapping("/request")
-    public ResponseEntity<String> toPython(
-            Model model, HttpSession session, @RequestParam("user_file") MultipartFile file,
+    public ResponseEntity<String> toPython(Model model, HttpSession session,
+            @RequestParam("user_file") MultipartFile file,
             UriComponentsBuilder uriComponentsBuilder) throws IOException, InterruptedException {
         try {
 
@@ -77,8 +58,6 @@ public class ImageController {
 
             // // Model을 사용하여 imgNumList 값을 가져옴
             // List<String> imgNumList = (List<String>) model.getAttribute("imgNumList");
-
-            // get relative path of src/main/python/A_code.py from current file
 
             // Python 스크립트에 데이터 전달 및 실행
             String pythonScriptPath = "src/main/python/A_code.py"; //TODO: 상대경로로 수정
@@ -96,19 +75,9 @@ public class ImageController {
              * }
              */
 
-            // %
-            // %
-
-            // %
-            // %
-            // %
-            // %
             // 여기 아래 부터 뭘 하려는지 모르겠음
             // %
-            // %
-            // %
-            // %
-            // %
+
             // %
             // %
 
@@ -135,14 +104,6 @@ public class ImageController {
                 e.printStackTrace();
             }
 
-            // try (InputStream inputStream = file.getInputStream();
-            //         OutputStream outputStream = process.getOutputStream()) {
-            //     byte[] buffer = new byte[1024];
-            //     int bytesRead;
-            //     while ((bytesRead = inputStream.read(buffer)) != -1) {
-            //         outputStream.write(buffer, 0, bytesRead);
-            //     }
-            // }
 
             // 프로세스 실행 결과에 따라 응답 처리
             int exitCode = process.waitFor();
@@ -155,7 +116,7 @@ public class ImageController {
 
                 List<String> top10Images = new ArrayList<>();
 
-                System.out.println("pythonScriptOutput 확인중: " + pythonScriptOutput);
+                System.out.println("pythonScriptOutput 확인 중: " + pythonScriptOutput);
 
                 boolean foundTop10Header = false;
 
@@ -175,16 +136,15 @@ public class ImageController {
                         foundTop10Header = true;
                     }
                 }
-
-                System.out.println("top10Images 확인중: " + top10Images);
+                System.out.println("top10Images 확인 중: " + top10Images);
                 return ResponseEntity.ok("ok");
             } else {
-                return ResponseEntity.status(500).body("여기 error");
+                return ResponseEntity.status(500).body("error");
             }
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("this...error");
+            return ResponseEntity.status(500).body(".error");
         }
     }
 

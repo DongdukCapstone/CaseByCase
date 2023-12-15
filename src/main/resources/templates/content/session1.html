@@ -11,8 +11,7 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 
     <link rel="stylesheet" th:href="@{/css/session1.css}" />
-    <!-- content script    <th:block layout:fragment="script"> -->
-    <script th:inline="javascript" defer>
+    <script th:inline="javascript">
     </script>
 </head>
 
@@ -68,10 +67,14 @@
 
             <form th:action="@{/casebycase/mapping/selectImages}" method="post" id="imgselectform">
                 <input type="text" name="category" value="${selectedCategory}" style="display: none" />
-                <div>
+                <div id="imgInfo1" th:style="${imgNumList == null or #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
                     <label th:text="${selectedCategory}" id="sel_CA"></label>
                     <input type="text" name="img_num" id="img_num"/>
                     <button type="submit" id="submitImagesButton">이미지 선택하기</button>
+                </div>
+                <div id="imgInfo2" th:style="${imgNumList != null and not #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
+                    <span>선택한 이미지: </span>
+                    <span th:text="${imgNumList}"></span>
                 </div>
             </form>
         </div>
