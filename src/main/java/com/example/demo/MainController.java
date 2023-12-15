@@ -3,9 +3,13 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 
@@ -52,33 +56,35 @@ public class MainController {
 
 
 
-
     @PostMapping("/submitCategory")
-    public String submitCategory(@RequestParam("category") String selectedCategory, RedirectAttributes redirectAttributes) {
-
+    public String submitCategory(@RequestParam("category") String selectedCategory, RedirectAttributes redirectAttributes, HttpSession session) {
         // 선택된 카테고리에 대한 영문 이름(fileName)을 가져오기
         String fileName = categoryService.getFileNameByKoreanName(selectedCategory);
+
+        System.out.println("fileName 확인하자: " + fileName);
 
         // 파일 경로를 생성
         String filePath = "src/main/resources/static/images/" + fileName + "/";
         // 랜덤으로 10개의 이미지 파일 선택
         List<String> randomImages = getRandomImages(filePath, 10);
 
-
         // 로깅 추가
         System.out.println("Selected Category: " + selectedCategory);
         System.out.println("Path: " + filePath);
         System.out.println("Random Images: " + randomImages);
+
+        session.setAttribute("filePath", filePath);
+        session.setAttribute("selectedCategory", selectedCategory);
+        session.setAttribute("randomImages", randomImages);
+        session.setAttribute("fileName", fileName);
+
 
         // 모델에 데이터 추가
         redirectAttributes.addFlashAttribute("selectedCategory", selectedCategory);
         redirectAttributes.addFlashAttribute("randomImages", randomImages);
         redirectAttributes.addFlashAttribute("fileName", fileName);
 
-
-
         // 결과 페이지로 이동
-
         return "redirect:/casebycase/session1";
 
     }
@@ -88,6 +94,8 @@ public class MainController {
     private List<String> getRandomImages(String directoryPath, int count) {
         List<String> images = new ArrayList<>();
         File directory = new File(directoryPath);
+
+        System.out.println("directory: " + directory);
 
         // 디렉토리에서 파일 목록 가져오기
         // File[] fileList = directory.listFiles();

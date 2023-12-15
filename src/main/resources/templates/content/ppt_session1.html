@@ -16,6 +16,8 @@
     </script>
 </head>
 
+
+
 <th:block layout:fragment="content">
     <div class="content">
         <div class="testtitle">
@@ -23,7 +25,7 @@
         </div>
         <div class="N01_1">
             <p>1. 원하는 카테고리를 선택하시오.</p>
-            <form th:action="@{/casebycase/submitCategory}" method="post">
+            <form method="post">
                 <label for="category"> 카데고리 선택:</label>
                 <select id="category" name="category">
                     <option value="애니메이션">애니메이션</option>
@@ -34,8 +36,7 @@
                     <option value="그래픽">그래픽</option>
                     <option value="Y2K">Y2K</option>
                 </select>
-                <button type="submit" id="submitButton">선택</button>
-
+                <button type="submit" >선택</button>
                 <br>
                 <div class="question2">
                     <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
@@ -43,33 +44,25 @@
                 </div>
             </form>
 
-            <div class="sel_category" th:fragment="imageList">
-                <th:block th:if="${selectedCategory}">
-                    <div class="image-box" th:each="image : ${randomImages}">
-                        <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
-                        <div>
-                            <input type="checkbox" th:id="${'checkbox-' + image}" id="selectedImagesInput" class="image-checkbox">
-                            <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
-                        </div>
+            <div>
+                    <div class="sel_category">
+                        <div><img src="/images/Game/64.jpg" width="100" height="100" ><input type="checkbox" class="image-checkbox"><label >64.jpg</label></div>
+                        <div><img src="/images/Game/160.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >160.jpg</label></div>
+                        <div><img src="/images/Game/3.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >3.jpg</label></div>
+                        <div><img src="/images/Game/75.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >75.jpg</label></div>
+                        <div><img src="/images/Game/54.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >54.jpg</label></div>
+                        <div><img src="/images/Game/77.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >77.jpg</label></div>
+                        <div> <img src="/images/Game/137.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >137.jpg</label></div>
+                        <div><img src="/images/Game/96.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >96.jpg</label></div>
+                        <div><img src="/images/Game/115.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >115.jpg</label></div>
+                        <div><img src="/images/Game/17.jpg" width="100" height="100"><input type="checkbox" class="image-checkbox"><label >17.jpg</label></div>
                     </div>
-                </th:block>
                 <br>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-            <form th:action="@{/casebycase/mapping/selectImages}" method="post" id="imgselectform">
-                <input type="text" name="category" value="${selectedCategory}" style="display: none" />
+            <form method="post">
                 <div>
-                    <label th:text="${selectedCategory}" id="sel_CA"></label>
+                    <label>게임</label>
                     <input type="text" name="img_num" id="img_num"/>
                     <button type="submit" id="submitImagesButton">이미지 선택하기</button>
                 </div>
@@ -78,52 +71,27 @@
 
         <div class="N02_1">
             <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
-            <form th:action="@{/casebycase/mapping/request}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
-                <input type="file" name="user_file" accept="image/*" />
+            <form  method="post" enctype="multipart/form-data" >
+                <input type="file" name="7.jpg" />
                 <button type="submit">업로드</button>
             </form>
         </div>
-        <!-- <form th:action="@{/casebycase/mapping/request}" method="post">
-            <button type="submit" id="recommend_btn">추천 받기</button>
-        </form> -->
-        <div class="Part1_img">
-            <th:block th:if="${sel_Part1}">
-                <div class="part1_box" th:each="image : ${Images}">
-                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
-                    <div>
-                        <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
-                    </div>
-                </div>
-            </th:block>
+        <br>
+        <div>
+            <div class="sel_category">
+                <div><p>Similarity: 0.56</p><img src="/images/Game/157.jpg" width="100" height="100" ><label >157.jpg</label></div>
+                <div><p>Similarity: 0.55</p><img src="/images/Game/69.jpg" width="100" height="100" ><label >69.jpg</label></div>
+                <div><p>Similarity: 0.55</p><img src="/images/Game/16.jpg" width="100" height="100" ><label >16.jpg</label></div>
+                <div><p>Similarity: 0.54</p><img src="/images/Game/154.jpg" width="100" height="100" ><label >154.jpg</label></div>
+                <div><p>Similarity: 0.54</p><img src="/images/Game/65.jpg" width="100" height="100" ><label >65.jpg</label></div>
+                <div><p>Similarity: 0.53</p><img src="/images/Game/123.jpg" width="100" height="100" ><label >123.jpg</label></div>
+                <div><p>Similarity: 0.53</p><img src="/images/Game/192.jpg" width="100" height="100" ><label >192.jpg</label></div>
+                <div><p>Similarity: 0.52</p><img src="/images/Game/3.jpg" width="100" height="100" ><label >3.jpg</label></div>
+                <div><p>Similarity: 0.51</p><img src="/images/Game/184.jpg" width="100" height="100" ><label >184.jpg</label></div>
+                <div><p>Similarity: 0.51</p><img src="/images/Game/158.jpg" width="100" height="100" ><label >158.jpg</label></div>
+            </div>
+
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="testtitle">
             <p class="title" id="test2">PART 2</p>
         </div>
@@ -154,15 +122,13 @@
 
             <form>
                 <div class="sel_category">
-
-                    <th:block th:if="${selectedCategory2}">
-                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
                             <!-- 이미지를 표시하는 부분 -->
                             <div class="image-box">
-
+                                <img src="/images/Fashion/51.jpg" ><label>51.jpg</label>
+                                <img src="/images/Fashion/51.jpg" ><label>51.jpg</label>
+                                <img src="/images/Fashion/51.jpg" ><label>51.jpg</label>
+                                <img src="/images/Fashion/51.jpg" ><label>51.jpg</label>
                             </div>
-                        </th:block>
-                    </th:block>
                     <br>
                 </div>
                 <button type="button"> 이미지 선택하기</button>
