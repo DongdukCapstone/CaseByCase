@@ -35,6 +35,11 @@ public class MainController {
         return "content/session2";
     }
 
+    @GetMapping("/ppt_session1")
+    public String ppt_session1() {
+        return "content/ppt_session1";
+    }
+
     @RequestMapping("/error")
     public String handleError() {
         // Provide a custom error view or redirect to a different page.
