@@ -1,17 +1,26 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/casebycase/mapping")
 public class ImageController {
@@ -42,13 +51,27 @@ public class ImageController {
         return "forward:/casebycase/session1";
     }
 
-
+    private final ObjectMapper objectMapper;
 
     @PostMapping("/request")
-    public ResponseEntity<String> toPython(Model model, HttpSession session,
-            @RequestParam("user_file") MultipartFile file,
-            UriComponentsBuilder uriComponentsBuilder) throws IOException, InterruptedException {
+    public String toPython(Model model, HttpSession session,
+            @RequestParam("user_file") MultipartFile file)
+            throws IOException , InterruptedException, JsonProcessingException {
+
+
         try {
+            //헤더를 JSON으로 설정함
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // 파일 저장 디렉토리 지정 (원하는 경로로 변경)
+            String uploadDir = "src/main/resources/static/images/uploadDir/";
+            // 원본 파일 이름 추출
+            String originalFileName = Objects.requireNonNull(file.getOriginalFilename());
+            // 저장할 파일 경로 설정
+            String filePath = uploadDir + originalFileName;
+            // 파일 저장
+            FileCopyUtils.copy(file.getBytes(), new File(filePath));
 
             List<String> imgNumList = (List<String>) session.getAttribute("imgNumList");
             String selectedCategory = (String) session.getAttribute("selectedCategory");
@@ -56,109 +79,49 @@ public class ImageController {
             System.out.println("imgNumList 확인중2: " + imgNumList);
             System.out.println("selectedCategory 확인중2: " + selectedCategory);
 
-            // // Model을 사용하여 imgNumList 값을 가져옴
-            // List<String> imgNumList = (List<String>) model.getAttribute("imgNumList");
-
             // Python 스크립트에 데이터 전달 및 실행
-            String pythonScriptPath = "src/main/python/A_code.py"; //TODO: 상대경로로 수정
+            String pythonScriptPath = "C:\\Users\\82105\\CaseFolder\\Case\\src\\main\\python\\A_code.py";
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "python", pythonScriptPath, selectedCategory, String.join(",", imgNumList));
+                    "python", pythonScriptPath, selectedCategory, String.join(",", imgNumList), filePath);
 
             // Python 스크립트에 이미지 데이터를 전송
             Process process = processBuilder.start();
 
-            // 이미지 번호 목록을 전송
-            /*
-             * try (ObjectOutputStream objectOutputStream = new
-             * ObjectOutputStream(process.getOutputStream())) {
-             * objectOutputStream.writeObject(imgNumList);
-             * }
-             */
 
-            // 여기 아래 부터 뭘 하려는지 모르겠음
-            // %
-
-            // %
-            // %
-
-
-
-
-
-            // 파일 데이터를 전송
-            try (InputStream inputStream = file.getInputStream();
-                 OutputStream outputStream = process.getOutputStream()) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                // IOException 처리: 파일 I/O 관련 예외
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                // SecurityException 처리: 보안 관련 예외
-                e.printStackTrace();
-            } catch (Exception e) {
-                // 그 외의 예외 처리
-                e.printStackTrace();
-            }
-
-
-            // 프로세스 실행 결과에 따라 응답 처리
+            // Python 스크립트 실행이 완료될 때까지 대기
             int exitCode = process.waitFor();
 
             System.out.println("exitCode 확인중: " + exitCode);
 
             if (exitCode == 0) {
-                // Python 스크립트의 결과를 읽어옴
-                List<String> pythonScriptOutput = readPythonScriptOutput(process);
+                // 성공적으로 실행된 경우
+                // Python 스크립트의 출력을 읽어옴
+                String result = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
-                List<String> top10Images = new ArrayList<>();
+                // 결과 처리 로직 추가 (result 변수에 결과 값이 저장됨)
+                System.out.println("Python script result: " + result);
 
-                System.out.println("pythonScriptOutput 확인 중: " + pythonScriptOutput);
+                // 성공 페이지로 리다이렉트 또는 결과 반환
+                model.addAttribute("top10", result);
 
-                boolean foundTop10Header = false;
-
-                // pythonScriptOutput을 이용하여 필요한 작업 수행
-                for (String line : pythonScriptOutput) {
-                    if (foundTop10Header) {
-                        // "Top 10 유사도 값:" 이후의 라인은 이미지 정보로 간주
-                        top10Images.add(line);
-
-                        // 상위 10개 이미지 정보를 읽었다면 반복문 종료
-                        if (top10Images.size() >= 10)
-                            break;
-                    }
-
-                    if (line.startsWith("Top 10 유사도 값:")) {
-                        // 해당 라인에서 필요한 작업을 수행 (예: 다음 라인부터 10개 이미지 정보를 읽음)
-                        foundTop10Header = true;
-                    }
-                }
-                System.out.println("top10Images 확인 중: " + top10Images);
-                return ResponseEntity.ok("ok");
+                // 성공 페이지로 리다이렉트 또는 결과 반환
+                return "redirect:/casebycase/session1";
             } else {
-                return ResponseEntity.status(500).body("error");
-            }
+                // 실패한 경우
+                // 에러 메시지를 읽어옴
+                String errorMessage = new String(process.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
 
+                // 에러 메시지 처리 로직 추가 (errorMessage 변수에 에러 메시지가 저장됨)
+                System.out.println("Python script error: " + errorMessage);
+
+                // 실패 페이지로 리다이렉트 또는 에러 메시지 반환
+                return "redirect:/error";
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body(".error");
+            // 실패 페이지로 리다이렉트 또는 에러 메시지 반환
+            return "redirect:/error";
         }
     }
-
-    private List<String> readPythonScriptOutput(Process process) throws IOException {
-        List<String> outputLines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                outputLines.add(line);
-            }
-        }
-
-        return outputLines;
-    }
-
 }
+
