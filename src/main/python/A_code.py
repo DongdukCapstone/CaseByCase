@@ -1,32 +1,22 @@
 import sys
-from flask import Flask, render_template, request, jsonify
+import io
+from flask import Flask, render_template
 from scipy.spatial import distance
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def main():
+# 여러 카테고리에 대한 딕셔너리들을 전역 변수로 선언
+ani_dict = {}
+y2k_dict = {}
+game_dict = {}
+art_dict = {}
+fashion_dict = {}
+modern_dict = {}
+graphic_dict = {}
 
-    # 스크립트 이름은 첫 번째 요소이므로 무시합니다.
-    script_name = sys.argv[0]
-
-    # 선택된 카테고리는 두 번째 요소입니다.
-    fileName = sys.argv[1]
-
-    # 이미지 번호 목록은 세 번째 요소부터입니다.
-    selected_images = sys.argv[2].split(',')
-
-
-    # 여기서 원하는 로직을 수행합니다.
-    print("Script Name:", script_name)
-    print("Selected Category:", fileName)
-    print("img_num_list")
-    for img_num in selected_images:
-        print(img_num)
-
-    # 파일 데이터 읽기
-    user_file = sys.stdin.buffer.read()
-
+def main1():
+    global ani_dict, y2k_dict, game_dict, art_dict, fashion_dict, modern_dict, graphic_dict
 
     array_ani = np.load('C:\\Users\\82105\\OneDrive\\바탕 화면\\Case\\src\\main\\python\\src\\main\\python\\data\\Animation.npy')
     # 나머지 이미지 데이터도 동일하게 수정
@@ -122,7 +112,36 @@ def main():
         value = array_graphic[i]  # 원하는 값 (예: array_anime)을 할당
         graphic_dict[key] = value  # 딕셔너리에 추가
 
+def process_file(file_path):
+    try:
+        # 파일 경로를 이용하여 파일 열기
+        with open(file_path, 'rb') as file:
+            # 파일 내용 읽기 또는 원하는 처리 수행
+            content = file.read()
 
+        print("Processing completed successfully!")
+    except Exception as e:
+        # 오류가 발생한 경우 오류 메시지 출력
+        print(f"Error processing the file: {e}")
+def main():
+    # 스크립트 이름은 첫 번째 요소이므로 무시
+    script_name = sys.argv[0]
+    fileName = sys.argv[1]
+    selected_images = sys.argv[2].split(',')
+    user_file = sys.argv[3]
+
+    # 여기서 원하는 로직을 수행합니다.
+    print("Script Name:", script_name)
+    print("Selected Category:", fileName)
+    print("img_num_list")
+    for img_num in selected_images:
+        print(img_num)
+
+    # 각 카테고리 별 dic
+    main1()
+
+
+    category_dict = None
     # 파일 이름 별로 dict 연결 하기
     if fileName == '애니메이션':
         category_dict = ani_dict
@@ -138,6 +157,8 @@ def main():
         category_dict = game_dict
     elif fileName == '그래픽':
         category_dict = graphic_dict
+
+    print(category_dict)
 
     # data 딕셔너리에서 key 값이 이미지 리스트의 각 원소와 일치하는 쌍 추출
     data = {key: value for key, value in category_dict.items()}
@@ -174,13 +195,12 @@ def main():
     print("최종 Top 30 유사도 값:")
     print(sorted_top_30)
 
-
-
     # 이미지 리스트에서 상위 30개 이미지 가져오기
     top_30_images = [item[0] for item in sorted_top_30]
 
     # 사용자 파일 데이터 읽기
-    user_file_data = np.frombuffer(sys.stdin.buffer.read(), dtype=np.uint8)
+    user_file_data = np.load(user_file, allow_pickle=True).item()
+
 
     # 이미지 리스트와 사용자 파일의 유사도 계산
     similarities = {filename: cosine_similarity(user_file_data.reshape(1, -1), embedding.reshape(1, -1))[0, 0]
@@ -196,6 +216,9 @@ def main():
     print("Top 10 유사도 값:")
     print(top_10)
 
+    template_name = 'content/session1.html'
+
+    return render_template(template_name, top_10 = top_10)
 
 if __name__ == "__main__":
     main()
