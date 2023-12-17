@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+.frame {
+    display: flex;
+    align-items: center;
+}
+
+.frame button {
+    margin-left: 5%;
+}
+
+h3{
+    margin-left: 33%;}
+
 .frame{
     width: 100%;
     height: 65px;

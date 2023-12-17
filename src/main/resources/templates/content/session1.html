@@ -12,6 +12,9 @@
 
     <link rel="stylesheet" th:href="@{/css/session1.css}" />
     <script th:inline="javascript">
+        function navigateToSession2() {
+        // 페이지 이동
+        window.location.href = 'session2';}
     </script>
 </head>
 
@@ -21,7 +24,8 @@
             <p class="title" id="test1">PART 1</p>
         </div>
         <div class="N01_1">
-            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <p><span> 1. 원하는 카테고리를 선택하시오. </span><button onclick="navigateToSession2()"> 카테고리 설명 </button>
+            </p>
             <form th:action="@{/casebycase/submitCategory}" method="post">
                 <label for="category"> 카데고리 선택:</label>
                 <select id="category" name="category">
@@ -55,16 +59,6 @@
                 <br>
             </div>
 
-
-
-
-
-
-
-
-
-
-
             <form th:action="@{/casebycase/mapping/selectImages}" method="post" id="imgselectform">
                 <input type="text" name="category" value="${selectedCategory}" style="display: none" />
                 <div id="imgInfo1" th:style="${imgNumList == null or #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
@@ -86,6 +80,16 @@
                 <button type="submit">업로드</button>
             </form>
         </div>
+
+        <!-- 이미지 표시 부분 추가 -->
+        <div class="image-grid">
+            <th:block th:each="image : ${top_10}">
+                <p th:text="${image.value}"></p>
+                <img th:src="@{'/images/' + ${fileName} + '/' + ${image.key} }" alt="Image" />
+            </th:block>
+        </div>
+
+
         <!-- <form th:action="@{/casebycase/mapping/request}" method="post">
             <button type="submit" id="recommend_btn">추천 받기</button>
         </form> -->

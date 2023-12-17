@@ -76,3 +76,6 @@ button:hover{
     cursor: pointer;
 }
 
+p > span {
+    margin-right: 10px; /* 간격 조절을 위한 오른쪽 마진 설정 */
+}
