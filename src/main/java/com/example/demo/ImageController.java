@@ -19,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -63,6 +65,11 @@ public class ImageController {
     }
 
     private final ObjectMapper objectMapper;
+
+
+
+
+
 
     @PostMapping("/request")
     public String toPython(Model model, HttpSession session,
@@ -144,9 +151,7 @@ public class ImageController {
                     // 파싱하여 10개의 값을 추출
                     List<String> top10_1 = parseTop10(pythonScriptResult[0]);
                     List<String> top10 = parseTop10_2(top10_1);
-/*
-                    List<Double> imageCosList = extractImageCosList(pythonScriptResult[0]);
-*/
+
                     // 모델에 top10을 추가 model.addAttribute("top10", top10);
                     session.setAttribute("top10", top10);
                 } catch (IOException e) {
@@ -158,9 +163,7 @@ public class ImageController {
             int exitCode = process.waitFor();
             System.out.println("exitCode");
             System.out.println(exitCode);
-    /*
-    *
-*/
+
         // CompletableFuture의 완료를 기다림
         try {
             future.get();
@@ -202,20 +205,44 @@ public class ImageController {
                 .collect(Collectors.toList());
     }
 
-/*    private static List<Double> extractImageCosList(String pythonScriptResult) {
-        List<Double> imageCosList = new ArrayList<>();
 
-        // 정규표현식을 사용하여 숫자 부분 추출
-        Pattern pattern = Pattern.compile("\\d+\\.\\d+");
-        Matcher matcher = pattern.matcher(pythonScriptResult);
 
-        while (matcher.find()) {
-            String match = matcher.group();
-            double value = Double.parseDouble(match);
-            imageCosList.add(value);
+    @PostMapping("/request2")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes,
+                                   HttpSession session, Model model) {
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // 파일 저장 디렉토리 지정 (원하는 경로로 변경)
+            String uploadDir2 = "src/main/resources/static/images/uploadDir2/";
+            // 원본 파일 이름 추출
+            String originalFileName = Objects.requireNonNull(file.getOriginalFilename());
+            // 저장할 파일 경로 설정 및 저장
+            String filePath2 = uploadDir2 + originalFileName;
+            FileCopyUtils.copy(file.getBytes(), new File(filePath2));
+            // 업로드된 파일 경로를 세션에 저장
+            session.setAttribute("filePath2", "/images/uploadDir2/" + originalFileName);
+
+            // 파일 업로드 성공 메시지 설정
+            redirectAttributes.addFlashAttribute("message", "파일 업로드 성공!");
+            redirectAttributes.addFlashAttribute("filePath2", session.getAttribute("filePath2"));
+            System.out.println("filePath2");
+            System.out.println(filePath2);
+
+            // Model에 filePath2를 추가하여 HTML에서 사용할 수 있게 함
+            model.addAttribute("filePath2", session.getAttribute("filePath2"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 파일 업로드 실패 메시지 설정
+            redirectAttributes.addFlashAttribute("message", "파일 업로드 실패!");
         }
-
-        return imageCosList;
-    }*/
+        redirectAttributes.addFlashAttribute("filePath2", session.getAttribute("filePath2"));
+        return "redirect:/casebycase/session1";  // 업로드 폼 페이지로 리다이렉트
+    }
 }
+
 

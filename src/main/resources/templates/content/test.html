@@ -1,5 +1,3 @@
-<!--
-
 <!DOCTYPE html>
 <html
         lang="ko"
@@ -13,51 +11,11 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 
     <link rel="stylesheet" th:href="@{/css/session1.css}" />
-content script    <th:block layout:fragment="script">
-<script th:inline="javascript" defer>
-    function submitSelectedImages() {
-
-    // 'category' 셀렉트 박스 엘리먼트 가져오기
-        var categorySelect = document.getElementById('category');
-
-    // 선택된 옵션의 값 가져오기
-        var selectedCategoryValue = categorySelect.options[categorySelect.selectedIndex].value;
-        var checkboxes = document.getElementsByClassName('image-checkbox');
-        var selectedImageNames = [];
-
-        // 체크된 이미지의 파일 이름을 배열에 추가합니다.
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                var imageName = checkboxes[i].id.replace('checkbox-', '');
-                // 확장자 제거 후 이미지 이름만을 배열에 추가합니다.
-                selectedImageNames.push(imageName.split('.')[0]);
-            }
-        }
-
-        // 선택된 이미지 이름들을 출력하거나 서버로 전송
-        console.log("선택된 이미지 이름들:", selectedImageNames);
-
-    fetch('/casebycase/submitSelectedImages', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ selectedImages: selectedImageNames,
-         category: selectedCategoryValue}),
-    })
-    .then(response => response.json())
-    .then(data => console.log('Image Similarity Result:', data))
-    .catch(error => console.error('Error:', error));
-
-}
-    document.addEventListener('DOMContentLoaded', function() {
-        // 이미지 선택하기 버튼 클릭 시 함수 호출
-        document.getElementById('submitImagesButton').addEventListener('click', function () {
-            submitSelectedImages();
-        });
-    });
-
-</script>
+    <script th:inline="javascript">
+        function navigateToSession2() {
+        // 페이지 이동
+        window.location.href = 'session2';}
+    </script>
 </head>
 
 <th:block layout:fragment="content">
@@ -66,7 +24,8 @@ content script    <th:block layout:fragment="script">
             <p class="title" id="test1">PART 1</p>
         </div>
         <div class="N01_1">
-            <p>1. 원하는 카테고리를 선택하시오.</p>
+            <p><span> 1. 원하는 카테고리를 선택하시오. </span><button onclick="navigateToSession2()"> 카테고리 설명 </button>
+            </p>
             <form th:action="@{/casebycase/submitCategory}" method="post">
                 <label for="category"> 카데고리 선택:</label>
                 <select id="category" name="category">
@@ -81,13 +40,11 @@ content script    <th:block layout:fragment="script">
                 <button type="submit" id="submitButton">선택</button>
 
                 <br>
-
                 <div class="question2">
                     <p class="question2_p">2. 마음에 드는 이미지 3장을 선택하시오.</p>
                     <button type="submit">다른 이미지 보기</button>
                 </div>
             </form>
-            <!-- <form th:action="@{/casebycase/submitSelectedImages}" method="post">
 
             <div class="sel_category" th:fragment="imageList">
                 <th:block th:if="${selectedCategory}">
@@ -101,20 +58,52 @@ content script    <th:block layout:fragment="script">
                 </th:block>
                 <br>
             </div>
-            <div>
-                <input type="text" id="img_num"/>
-                <button onclick="submitSelectedImages()" id="submitImagesButton">이미지 선택하기</button>
-            </div>
+
+            <form th:action="@{/casebycase/mapping/selectImages}" method="post" id="imgselectform">
+                <input type="text" name="category" value="${selectedCategory}" style="display: none" />
+                <div id="imgInfo1" th:style="${imgNumList == null or #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
+                    <label th:text="${selectedCategory}" id="sel_CA"></label>
+                    <input type="text" name="img_num" id="img_num"/>
+                    <button type="submit" id="submitImagesButton">이미지 선택하기</button>
+                </div>
+                <div id="imgInfo2" th:style="${imgNumList != null and not #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
+                    <span>선택한 이미지: </span>
+                    <span th:text="${imgNumList}"></span>
+                </div>
+            </form>
         </div>
+
         <div class="N02_1">
             <p>3. 사용자께서 평소 이용한 휴대폰 케이스 사진을 업로드 해주세요.</p>
-            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
-                <input type="file" name="file" accept="image/*" />
+            <form th:action="@{/casebycase/mapping/request}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+                <input type="file" name="user_file" accept="image/*" />
                 <button type="submit">업로드</button>
             </form>
         </div>
 
+        <!-- 이미지 표시 부분 추가 -->
+        <!--        <div class="image-grid">
+                    <th:block th:each="image : ${top_10}">
+                        <p th:text="${image.value}"></p>
+                        <img th:src="@{'/images/' + ${fileName} + '/' + ${image.key} }" alt="Image" />
+                    </th:block>
+                </div>-->
 
+
+        <!-- <form th:action="@{/casebycase/mapping/request}" method="post">
+            <button type="submit" id="recommend_btn">추천 받기</button>
+        </form> -->
+        <div class="Part1_img">
+            <th:block th:if="${top10}">
+                <p class="last"> 추천된 이미지 </p>
+                <div class="part1_box" th:each="image : ${top10}">
+                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image} + '.jpg' }" alt="랜덤 이미지">
+                    <div>
+                        <label th:for="${'checkbox-' + image}" th:text="${image}+ '.jpg'" class="image-name"></label>
+                    </div>
+                </div>
+            </th:block>
+        </div>
 
 
 
@@ -148,7 +137,7 @@ content script    <th:block layout:fragment="script">
         </div>
         <div class="N01_2">
             <p>1. 원하는 카테고리를 선택하시오.</p>
-            <form th:action="@{/submitCategory2}" method="post">
+            <form th:action="@{/casebycase/submitCategory2}" method="post">
                 <label for="category2"> 카데고리 선택:</label>
                 <select id="category2" name="category">
                     <option value="애니메이션">에니메이션</option>
@@ -162,11 +151,11 @@ content script    <th:block layout:fragment="script">
                 <button type="submit">선택</button>
             </form>
         </div>
-        <!-- 이미지 업로드
+        <!-- 이미지 업로드 -->
         <br>
         <div class="N02_2">
             <p class="question2_p">2. 사용자께서 사용한 휴대폰 케이스를 업로드 해주세요.</p>
-            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
+            <form th:action="@{casebycase/mapping/request2}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
                 <input type="file" name="file" accept="image/*" />
                 <button type="submit">업로드</button>
             </form>
@@ -176,7 +165,7 @@ content script    <th:block layout:fragment="script">
 
                     <th:block th:if="${selectedCategory2}">
                         <th:block th:each="i : ${#numbers.sequence(1, 10)}">
-                            <!-- 이미지를 표시하는 부분
+                            <!-- 이미지를 표시하는 부분 -->
                             <div class="image-box">
 
                             </div>
@@ -191,6 +180,3 @@ content script    <th:block layout:fragment="script">
 
 </th:block>
 </html>
-
-
--->

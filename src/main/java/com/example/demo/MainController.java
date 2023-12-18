@@ -95,6 +95,41 @@ public class MainController {
     }
 
 
+    @PostMapping("/submitCategory2")
+    public String submitCategory2(@RequestParam("category2") String selectedCategory2, RedirectAttributes redirectAttributes, HttpSession session) {
+        // 선택된 카테고리에 대한 영문 이름(fileName)을 가져오기
+        String fileName2 = categoryService.getFileNameByKoreanName(selectedCategory2);
+
+        System.out.println("fileName 확인하자: " + fileName2);
+
+        // 파일 경로를 생성
+        String filePath2 = "src/main/resources/static/images/" + fileName2 + "/";
+        // 랜덤으로 10개의 이미지 파일 선택
+        List<String> randomImages2 = getRandomImages(filePath2, 10);
+
+        // 로깅 추가
+        System.out.println("Selected Category: " + selectedCategory2);
+        System.out.println("Path: " + filePath2);
+        System.out.println("Random Images: " + randomImages2);
+
+        session.setAttribute("filePath2", filePath2);
+        session.setAttribute("selectedCategory2", selectedCategory2);
+        session.setAttribute("randomImages2", randomImages2);
+        session.setAttribute("fileName2", fileName2);
+
+        System.out.println("Selected Category: " + selectedCategory2);
+        System.out.println("Path: " + filePath2);
+        System.out.println("Random Images: " + randomImages2);
+        // 모델에 데이터 추가
+        redirectAttributes.addFlashAttribute("selectedCategory2", selectedCategory2);
+        redirectAttributes.addFlashAttribute("randomImages2", randomImages2);
+        redirectAttributes.addFlashAttribute("fileName2", fileName2);
+
+        // 결과 페이지로 이동
+        return "redirect:/casebycase/session1";
+
+    }
+
     // 주어진 디렉토리에서 랜덤으로 파일을 선택하는 메서드
     private List<String> getRandomImages(String directoryPath, int count) {
         List<String> images = new ArrayList<>();

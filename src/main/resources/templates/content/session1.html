@@ -100,11 +100,26 @@
         <div class="testtitle">
             <p class="title" id="test2">PART 2</p>
         </div>
+        <!-- 이미지 업로드 -->
+        <div class="N02_2">
+            <p class="question2_p">1. 사용자께서 사용한 휴대폰 케이스를 업로드 해주세요.</p>
+            <form th:action="@{/casebycase/mapping/request2}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" />
+                <button type="submit">업로드</button>
+            </form>
+        </div>
+        <!-- 업로드된 이미지 표시 -->
+        <th:block th:if="${filePath2}">
+        <div>
+            <img th:src="@{${filePath2}}" alt="Uploaded Image">
+        </div>
+        </th:block>
+        <br>
         <div class="N01_2">
-            <p>1. 원하는 카테고리를 선택하시오.</p>
-            <form th:action="@{/submitCategory2}" method="post">
+            <p>2. 원하는 카테고리를 선택하시오.</p>
+            <form th:action="@{/casebycase/submitCategory2}" method="post">
                 <label for="category2"> 카데고리 선택:</label>
-                <select id="category2" name="category">
+                <select id="category2" name="category2" th:value="${selectedCategory2}">
                     <option value="애니메이션">에니메이션</option>
                     <option value="패션">패션</option>
                     <option value="모던">모던</option>
@@ -115,31 +130,19 @@
                 </select>
                 <button type="submit">선택</button>
             </form>
-        </div>
-        <!-- 이미지 업로드 -->
-        <br>
-        <div class="N02_2">
-            <p class="question2_p">2. 사용자께서 사용한 휴대폰 케이스를 업로드 해주세요.</p>
-            <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data" th:object="${uploadForm}">
-                <input type="file" name="file" accept="image/*" />
-                <button type="submit">업로드</button>
-            </form>
 
-            <form>
-                <div class="sel_category">
+            <div class="sel_category" th:fragment="imageList">
+                <th:block th:if="${selectedCategory2}">
+                    <div class="image-box" th:each="image : ${randomImages2}">
+                        <img th:src="@{'/images/' + ${fileName2} + '/' + ${image}}" alt="랜덤 이미지">
+                        <div>
+                            <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+                        </div>
+                    </div>
+                </th:block>
+                <br>
+            </div>
 
-                    <th:block th:if="${selectedCategory2}">
-                        <th:block th:each="i : ${#numbers.sequence(1, 10)}">
-                            <!-- 이미지를 표시하는 부분 -->
-                            <div class="image-box">
-
-                            </div>
-                        </th:block>
-                    </th:block>
-                    <br>
-                </div>
-                <button type="button"> 이미지 선택하기</button>
-            </form>
         </div>
     </div>
 
