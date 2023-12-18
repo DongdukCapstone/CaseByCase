@@ -21,17 +21,6 @@ public class MainController {
 
     @GetMapping("/session1")
     public String session1(HttpSession session, Model model) {
-        // 세션에서 데이터 읽기
-        String selectedCategory = (String) session.getAttribute("selectedCategory");
-        List<String> randomImages = (List<String>) session.getAttribute("randomImages");
-        String fileName = (String) session.getAttribute("fileName");
-        List<String> imgNumList = (List<String>) session.getAttribute("imgNumList");
-        // 모델에 데이터 추가
-        model.addAttribute("selectedCategory", selectedCategory);
-        model.addAttribute("randomImages", randomImages);
-        model.addAttribute("fileName", fileName);
-        model.addAttribute("imgNumList", imgNumList);
-
         return "content/session1";
     }
 
@@ -133,7 +122,8 @@ public class MainController {
                     // 랜덤으로 count개의 파일 선택
                     Random random = new Random();
                     for (int i = 0; i < count; i++) {
-                        int randomIndex = random.nextInt(fileList.length);
+                        // int randomIndex = random.nextInt(fileList.length);
+                        int randomIndex = random.nextInt(50);
                         images.add(fileList[randomIndex].getName());
                     }
                 }

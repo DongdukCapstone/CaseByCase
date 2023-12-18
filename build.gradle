@@ -36,6 +36,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.python:jython-standalone:2.7.2' // Flask를 사용하기 위한 Jython 의존성 추가
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0' // 최신 버전 확인
 }
 
 tasks.named('bootBuildImage') {

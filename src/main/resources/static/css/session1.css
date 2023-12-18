@@ -79,3 +79,25 @@ button:hover{
 p > span {
     margin-right: 10px; /* 간격 조절을 위한 오른쪽 마진 설정 */
 }
+
+
+
+
+
+.Part1_img {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* 이미지 간격 조절 */
+    width: 70%;
+}
+
+.part1_box {
+    flex: 0 0 calc(20% - 20px); /* 각 이미지 박스의 너비 조절 */
+    box-sizing: border-box;
+    position: relative;
+}
+
+.part1_box img {
+    width: 100%; /* 이미지 100% 너비로 조절 */
+    height: auto; /* 이미지 높이 자동으로 조절 */
+}
