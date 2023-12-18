@@ -88,7 +88,8 @@ p > span {
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* 이미지 간격 조절 */
-    width: 70%;
+    width: 60%;
+    margin: 20px;
 }
 
 .part1_box {
@@ -100,4 +101,12 @@ p > span {
 .part1_box img {
     width: 100%; /* 이미지 100% 너비로 조절 */
     height: auto; /* 이미지 높이 자동으로 조절 */
+}
+
+.last_image{
+    text-align: center;
+}
+
+.last{
+    margin-left: 35px;
 }

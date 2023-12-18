@@ -61,7 +61,7 @@ def main1():
     ani_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
         value = array_ani[i]  # 원하는 값 (예: array_anime)을 할당
         ani_dict[key] = value  # 딕셔너리에 추가
@@ -76,7 +76,7 @@ def main1():
     y2k_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
         value = array_y2k[i]  # 원하는 값 (예: array_anime)을 할당
         y2k_dict[key] = value  # 딕셔너리에 추가
@@ -91,7 +91,7 @@ def main1():
     game_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i}'  # 'anime_숫자' 형태의 키 생성
         value = array_game[i]  # 원하는 값 (예: array_anime)을 할당
         game_dict[key] = value  # 딕셔너리에 추가
@@ -104,7 +104,7 @@ def main1():
     art_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i}'  # 'anime_숫자' 형태의 키 생성
         value = array_art[i]  # 원하는 값 (예: array_anime)을 할당
         art_dict[key] = value  # 딕셔너리에 추가
@@ -118,7 +118,7 @@ def main1():
     fashion_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
         value = array_fashion[i]  # 원하는 값 (예: array_anime)을 할당
         fashion_dict[key] = value  # 딕셔너리에 추가
@@ -131,7 +131,7 @@ def main1():
     modern_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
         value = array_modern[i]  # 원하는 값 (예: array_anime)을 할당
         modern_dict[key] = value  # 딕셔너리에 추가
@@ -144,7 +144,7 @@ def main1():
     graphic_dict = {}
 
     # 원하는 횟수만큼 반복하여 딕셔너리에 데이터 추가
-    for i in range(0, 50):
+    for i in range(0, 100):
         key = f'{i+1}'  # 'anime_숫자' 형태의 키 생성
         value = array_graphic[i]  # 원하는 값 (예: array_anime)을 할당
         graphic_dict[key] = value  # 딕셔너리에 추가
@@ -253,7 +253,8 @@ def main():
 
     # 사용자 파일 데이터 읽기
     # 사용자 파일 경로
-    user_file = 'C:/Users/82105/CaseFolder/Case/src/main/resources/static/images/uploadDir/49.jpg'
+    user_file = sys.argv[3]
+        # 'C:/Users/82105/CaseFolder/Case/src/main/resources/static/images/uploadDir/49.jpg'
 
     # 이미지를 임베딩
     user_file_data = image_to_embedding(user_file)
@@ -271,11 +272,11 @@ def main():
 
     # 결과 출력
     print("Top10_SELECT")
-    print(top_10)
+    # print(top_10)
 
     top_10_name = [item[0] for item in top_10]
 
-    # 결과 출력 print(top_10_name)
+    print(top_10_name)
 
 
     template_name = 'content/session1.html'

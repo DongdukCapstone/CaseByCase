@@ -48,11 +48,10 @@
 
             <div class="sel_category" th:fragment="imageList">
                 <th:block th:if="${selectedCategory}">
-                    <div class="image-box" th:each="image : ${randomImages}">
+                    <div class="image-box" th:each="image, iterStat : ${randomImages}">
                         <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
                         <div>
-                            <input type="checkbox" th:id="${'checkbox-' + image}" id="selectedImagesInput" class="image-checkbox">
-                            <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+                            <label th:for="${'checkbox-' + image}" th:text="${iterStat.count}" class="image-name"></label>
                         </div>
                     </div>
                 </th:block>
@@ -67,6 +66,7 @@
                     <button type="submit" id="submitImagesButton">이미지 선택하기</button>
                 </div>
                 <div id="imgInfo2" th:style="${imgNumList != null and not #lists.isEmpty(imgNumList) ? 'display: block;' : 'display: none;'}">
+                    <label th:text="${selectedCategory}" id="sel_CA2"></label>
                     <span>선택한 이미지: </span>
                     <span th:text="${imgNumList}"></span>
                 </div>
@@ -80,52 +80,18 @@
                 <button type="submit">업로드</button>
             </form>
         </div>
-
-        <!-- 이미지 표시 부분 추가 -->
-        <div class="image-grid">
-            <th:block th:each="image : ${top_10}">
-                <p th:text="${image.value}"></p>
-                <img th:src="@{'/images/' + ${fileName} + '/' + ${image.key} }" alt="Image" />
-            </th:block>
-        </div>
-
-
-        <!-- <form th:action="@{/casebycase/mapping/request}" method="post">
-            <button type="submit" id="recommend_btn">추천 받기</button>
-        </form> -->
+        <p class="last"> 추천된 이미지 </p>
         <div class="Part1_img">
-            <th:block th:if="${sel_Part1}">
-                <div class="part1_box" th:each="image : ${Images}">
-                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image}}" alt="랜덤 이미지">
-                    <div>
-                        <label th:for="${'checkbox-' + image}" th:text="${image}" class="image-name"></label>
+            <th:block th:if="${top10}">
+
+                <div class="part1_box" th:each="image : ${top10}">
+                    <img th:src="@{'/images/' + ${fileName} + '/' + ${image} + '.jpg' }" alt="랜덤 이미지">
+                    <div class="last_image">
+                        <label th:for="${'checkbox-' + image}" th:text="${image}+ '.jpg'" class="image-name"></label>
                     </div>
                 </div>
             </th:block>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -140,17 +141,14 @@ public class ImageController {
                     pythonScriptResult[0] = resultBuilder.toString();
                     System.out.println("최종");
                     System.out.println(pythonScriptResult[0]);
-// 파싱하여 10개의 값을 추출
-                    List<String> top10 = parseTop10(pythonScriptResult[0]);
+                    // 파싱하여 10개의 값을 추출
+                    List<String> top10_1 = parseTop10(pythonScriptResult[0]);
+                    List<String> top10 = parseTop10_2(top10_1);
 /*
                     List<Double> imageCosList = extractImageCosList(pythonScriptResult[0]);
 */
-
-                    // 모델에 top10을 추가
-                    model.addAttribute("top10", top10);
-
-                    redirectAttributes.addFlashAttribute("top10", top10);
-
+                    // 모델에 top10을 추가 model.addAttribute("top10", top10);
+                    session.setAttribute("top10", top10);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -169,7 +167,8 @@ public class ImageController {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-            redirectAttributes.addFlashAttribute("top10", model.getAttribute("top10"));
+            redirectAttributes.addFlashAttribute("top10", session.getAttribute("top10"));
+
             return "redirect:/casebycase/session1";
 
 
@@ -192,6 +191,15 @@ public class ImageController {
         }
 
         return result;
+    }
+
+
+    // 이 메서드는 문자열로 된 리스트를 받아서 각 요소를 정수로 변환하고 1을 더한 후 다시 문자열로 변환하여 반환합니다.
+    private List<String> parseTop10_2(List<String> inputList) {
+        return inputList.stream()
+                .map(Integer::parseInt)
+                .map(number -> Integer.toString(number + 1))
+                .collect(Collectors.toList());
     }
 
 /*    private static List<Double> extractImageCosList(String pythonScriptResult) {
